@@ -53,7 +53,7 @@ namespace GoodNature.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserCategory_Category_CategoryId",
                         column: x => x.CategoryId,
@@ -109,7 +109,7 @@ namespace GoodNature.Data.Migrations
                         column: x => x.CategoryItemId,
                         principalTable: "CategoryItem",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
