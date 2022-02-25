@@ -1,19 +1,29 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using GoodNature.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace GoodNature.Data
 {
     public class ApplicationUser : IdentityUser
     {
+        [StringLength(100)]
         public string FirstName { get; set; }
+        [StringLength(100)]
         public string LastName { get; set; }
+        [StringLength(100)]
         public string Address1 { get; set; }
+        [StringLength(100)]
         public string Address2 { get; set; }
+        [StringLength(10)]
         public string Postcode { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ICollection<UserCategory> UserCategories { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -22,5 +32,11 @@ namespace GoodNature.Data
             : base(options)
         {
         }
+
+        public DbSet<Category> Category { get; set; }
+        public DbSet<CategoryItem> CategoryItem { get; set; }
+        public DbSet<MediaType> MediaType { get; set; }
+        public DbSet<UserCategory> UserCategory { get; set; }
+        public DbSet<Content> Content { get; set; }
     }
 }
