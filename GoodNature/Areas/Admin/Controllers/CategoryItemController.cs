@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GoodNature.Data;
 using GoodNature.Entities;
+using GoodNature.Extensions;
 
 namespace GoodNature.Areas.Admin.Controllers
 {
@@ -58,9 +59,17 @@ namespace GoodNature.Areas.Admin.Controllers
         }
 
         // GET: Admin/CategoryItem/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int categoryId)
         {
-            return View();
+            List<MediaType> mediaTypes = await _context.MediaType.ToListAsync();
+
+            CategoryItem categoryItem = new CategoryItem
+            {
+                CategoryId = categoryId,
+                MediaTypes = mediaTypes.ConvertToSelectList(0),
+            };
+
+            return View(categoryItem);
         }
 
         // POST: Admin/CategoryItem/Create
