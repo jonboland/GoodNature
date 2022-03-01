@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using GoodNature.Interfaces;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GoodNature.Entities
 {
-    public class MediaType
+    public class MediaType : IPrimaryProperties
     {
         public int Id { get; set; }
         [Required]
