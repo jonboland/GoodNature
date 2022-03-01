@@ -37,6 +37,8 @@ namespace GoodNature.Areas.Admin.Controllers
                  }
                  ).ToListAsync();
 
+            ViewBag.CategoryId = categoryId;
+            
             return View(categoryItemList);
         }
 
