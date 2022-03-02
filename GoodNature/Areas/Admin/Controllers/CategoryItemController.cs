@@ -27,7 +27,7 @@ namespace GoodNature.Areas.Admin.Controllers
             List<CategoryItem> categoryItemList = await (
                 from catItem in _context.CategoryItem
                 join contentItem in _context.Content
-                on catItem.CategoryId equals contentItem.CategoryId
+                on catItem.Id equals contentItem.CategoryItem.Id
                 into gj
                 from subContent in gj.DefaultIfEmpty()
                 where catItem.CategoryId == categoryId
