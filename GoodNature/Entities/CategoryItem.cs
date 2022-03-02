@@ -18,5 +18,7 @@ namespace GoodNature.Entities
         [NotMapped]
         public virtual ICollection<SelectListItem> MediaTypes { get; set; }
         public DateTime DateTimeItemReleased { get; set; }
+        [NotMapped]
+        public int ContentId { get; set;}
     }   
 }
