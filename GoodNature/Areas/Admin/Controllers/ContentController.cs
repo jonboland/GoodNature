@@ -37,13 +37,14 @@ namespace GoodNature.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,HTMLContent,VideoLink")] Content content)
+        public async Task<IActionResult> Create([Bind("Id,Title,HTMLContent,VideoLink,CatItemId,CategoryId")] Content content)
         {
             if (ModelState.IsValid)
             {
+                content.CategoryItem = await _context.CategoryItem.FindAsync(content.CatItemId);
                 _context.Add(content);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "CategoryItem", new { categoryId = content.CategoryId });
             }
             return View(content);
         }
