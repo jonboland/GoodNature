@@ -103,6 +103,11 @@ namespace GoodNature.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            List<MediaType> mediaTypes = await _context.MediaType.ToListAsync();
+
+            categoryItem.MediaTypes = mediaTypes.ConvertToSelectList(categoryItem.MediaTypeId);
+
             return View(categoryItem);
         }
 
