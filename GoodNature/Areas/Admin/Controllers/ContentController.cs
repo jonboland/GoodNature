@@ -20,30 +20,6 @@ namespace GoodNature.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Content
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Content.ToListAsync());
-        }
-
-        // GET: Admin/Content/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var content = await _context.Content
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (content == null)
-            {
-                return NotFound();
-            }
-
-            return View(content);
-        }
-
         // GET: Admin/Content/Create
         public IActionResult Create()
         {
@@ -115,35 +91,6 @@ namespace GoodNature.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(content);
-        }
-
-        // GET: Admin/Content/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var content = await _context.Content
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (content == null)
-            {
-                return NotFound();
-            }
-
-            return View(content);
-        }
-
-        // POST: Admin/Content/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var content = await _context.Content.FindAsync(id);
-            _context.Content.Remove(content);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool ContentExists(int id)
