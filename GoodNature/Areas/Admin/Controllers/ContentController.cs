@@ -21,9 +21,15 @@ namespace GoodNature.Areas.Admin.Controllers
         }
 
         // GET: Admin/Content/Create
-        public IActionResult Create()
+        public IActionResult Create(int categoryItemId, int categoryId)
         {
-            return View();
+            Content content = new Content
+            {
+                CategoryId = categoryId,
+                CatItemId = categoryItemId,
+            };
+            
+            return View(content);
         }
 
         // POST: Admin/Content/Create
