@@ -50,14 +50,17 @@ namespace GoodNature.Areas.Admin.Controllers
         }
 
         // GET: Admin/Content/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int categoryItemId, int categoryId)
         {
-            if (id == null)
+            if (categoryItemId == 0)
             {
                 return NotFound();
             }
 
-            var content = await _context.Content.FindAsync(id);
+            var content = await _context.Content.SingleOrDefaultAsync(item => item.CategoryItem.Id == categoryItemId);
+
+            content.CategoryId = categoryId;
+            
             if (content == null)
             {
                 return NotFound();
