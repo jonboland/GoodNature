@@ -8,6 +8,7 @@ namespace GoodNature.Entities
 {
     public class CategoryItem
     {
+        private DateTime _releaseDate = DateTime.MinValue;
         public int Id { get; set; }
         [Required]
         [StringLength(200, MinimumLength = 2)]
@@ -17,7 +18,18 @@ namespace GoodNature.Entities
         public int MediaTypeId { get; set; }
         [NotMapped]
         public virtual ICollection<SelectListItem> MediaTypes { get; set; }
-        public DateTime DateTimeItemReleased { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime DateTimeItemReleased 
+        {
+            get
+            {
+                return _releaseDate == DateTime.MinValue ? DateTime.Now : _releaseDate;
+            }
+            set
+            {
+                _releaseDate = value;
+            }
+        }
         [NotMapped]
         public int ContentId { get; set;}
     }   
