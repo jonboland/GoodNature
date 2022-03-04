@@ -1,18 +1,18 @@
 ﻿$(function () {
 
-    $(".datepicker").datepicker(
-        {
-            dateFormat: "dd/mm/yy",
-            maxDate: addMonths(new Date(), 1),
-        }
-    );
+    function configureDatepicker() {
 
-    function addMonths(date, numberOfMonths) {
+        const monthsToAdd = 1;
+        const currentDate = new Date();
 
-        var month = date.getMonth();
-
-        var milliSeconds = new Date(date).setMonth(month + numberOfMonths);
-
-        return new Date(milliSeconds);
+        $(".datepicker").datepicker(
+            {
+                dateFormat: "dd/mm/yy",
+                maxDate: addMonths(currentDate, monthsToAdd),
+            }
+        );
     }
+
+    configureDatepicker();
+
 });
