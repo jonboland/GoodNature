@@ -12,6 +12,7 @@ namespace GoodNature.Entities
         [StringLength(200, MinimumLength = 2)]
         public string Title { get; set; }
         [Required]
+        [Display(Name = Constants.ThumbnailImagePathDisplayName)]
         public string ThumbnailImagePath { get; set; }
         
         [ForeignKey("MediaTypeId")]
