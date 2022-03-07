@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GoodNature.Data;
 using GoodNature.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GoodNature.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class MediaTypeController : Controller
     {
         private readonly ApplicationDbContext _context;
