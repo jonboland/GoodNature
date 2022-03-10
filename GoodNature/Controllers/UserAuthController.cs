@@ -48,7 +48,7 @@ namespace GoodNature.Controllers
                 }
             }
 
-            return PartialView("_userLoginPartial", loginModel);
+            return PartialView("_UserLoginPartial", loginModel);
         }
 
         [AllowAnonymous]
