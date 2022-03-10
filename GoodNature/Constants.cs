@@ -1,4 +1,4 @@
-﻿namespace GoodNature.Entities
+﻿namespace GoodNature
 {
     public class Constants
     {
@@ -10,5 +10,7 @@
         public const string HTMLContentDisplayName = "HTML Content";
         public const string VideoLinkDisplayName = "Video Link";
         public const string ThumbnailImagePathDisplayName = "Thumbnail Image Path";
+
+        public const string RememberMeDisplayName = "Remember Me";
     }
 }
