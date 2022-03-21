@@ -44,7 +44,7 @@ namespace GoodNature.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Oops! Login details are incorrect");
+                    ModelState.AddModelError(string.Empty, Constants.LoginFailedErrorMessage);
                 }
             }
 
@@ -66,6 +66,45 @@ namespace GoodNature.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterUser(RegistrationModel registrationModel)
+        {
+            registrationModel.RegistrationInvalid = "true";
+            
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = registrationModel.Email,
+                    Email = registrationModel.Email,
+                    PhoneNumber = registrationModel.PhoneNumber,
+                    FirstName = registrationModel.FirstName,
+                    LastName = registrationModel.LastName,
+                    Address1 = registrationModel.Address1,
+                    Address2 = registrationModel.Address2,
+                    Postcode = registrationModel.Postcode,
+                };
+
+                var result = await _userManager.CreateAsync(user, registrationModel.Password);
+
+                if (result.Succeeded)
+                {
+                    registrationModel.RegistrationInvalid = string.Empty;
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return PartialView("_UserRegistrationPartial", registrationModel);
+                
+                }
+
+                ModelState.AddModelError(string.Empty, Constants.RegistrationFailedErrorMessage);
+            }
+
+            return PartialView("_UserRegistrationPartial", registrationModel);
         }
     }
 }
