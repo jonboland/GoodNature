@@ -18,5 +18,9 @@
 @section Scripts{
 
     <script src="~/js/userlogin.js"></script>
+    <script src="~/js/userregistration.js"></script>
 
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
