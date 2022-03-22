@@ -102,7 +102,7 @@ namespace GoodNature.Controllers
                 
                 }
 
-                ModelState.AddModelError(string.Empty, Constants.RegistrationFailedErrorMessage);
+                AddErrorsToModelState(result);
             }
 
             return PartialView("_UserRegistrationPartial", registrationModel);
@@ -119,6 +119,14 @@ namespace GoodNature.Controllers
             }
 
             return false;
+        }
+
+        private void AddErrorsToModelState(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
         }
     }
 }

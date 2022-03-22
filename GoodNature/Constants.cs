@@ -33,6 +33,5 @@
 
         // UserAuthController
         public const string LoginFailedErrorMessage = "Oops! Login details are incorrect";
-        public const string RegistrationFailedErrorMessage = "Oops! Registration details are incorrect";
     }
 }
