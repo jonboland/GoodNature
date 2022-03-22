@@ -10,10 +10,39 @@
         }
         else {
             $("#userRegistrationModal button[name = 'register']").prop("disabled", true);
-
         }
-
     }
+
+    $("#userRegistrationModal input[name = 'Email']").blur(function () {
+
+        var email = $("#userRegistrationModal input[name = 'Email']").val();
+
+        var url = "UserAuth/UserNameExists?userName=" + email;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                if (data == true) {
+
+                    var alertHTML = '<div class="alert alert-warning alert-dismissible fade show" role="alert">'
+                        + '<strong>Email Error</strong><br>This email address has already been registered'
+                        + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+                        + '<span aria-hidden="true">&times;</span>'
+                        + '</button>'
+                        + '</div>';
+
+                    $("#alertPlaceholderRegister").html(alertHTML);
+                }
+                else {
+                    $("#alertPlaceholderRegister").html("");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.error(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
+            }
+        });
+    });
 
     var registerUserButton = $("#userRegistrationModal button[name = 'register']").click(onUserRegisterClick);
 
@@ -81,11 +110,6 @@
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-
-                var errorText = "Status: " + xhr.status + " - " + xhr.statusText;
-
-                PresentClosableBootstrapAlert("#alert_placeholder_register", "danger", "Error!", errorText);
-
                 console.error(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
             }
         });
