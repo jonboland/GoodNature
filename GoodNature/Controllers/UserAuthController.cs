@@ -111,6 +111,11 @@ namespace GoodNature.Controllers
         [AllowAnonymous]
         public async Task<bool> UserNameExists(string userName)
         {
+            if (userName == null)
+            {
+                return false;
+            }
+
             bool userNameExists = await _context.Users.AnyAsync(u => u.UserName.ToUpper() == userName.ToUpper());
 
             if (userNameExists)
