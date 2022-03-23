@@ -3,6 +3,7 @@ using GoodNature.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace GoodNature.Controllers
@@ -101,10 +102,36 @@ namespace GoodNature.Controllers
                 
                 }
 
-                ModelState.AddModelError(string.Empty, Constants.RegistrationFailedErrorMessage);
+                AddErrorsToModelState(result);
             }
 
             return PartialView("_UserRegistrationPartial", registrationModel);
+        }
+
+        [AllowAnonymous]
+        public async Task<bool> UserNameExists(string userName)
+        {
+            if (userName == null)
+            {
+                return false;
+            }
+
+            bool userNameExists = await _context.Users.AnyAsync(u => u.UserName.ToUpper() == userName.ToUpper());
+
+            if (userNameExists)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void AddErrorsToModelState(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
         }
     }
 }

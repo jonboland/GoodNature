@@ -28,12 +28,10 @@ else
     <partial name="_UserRegistrationPartial">
 </div>
 
-@section Scripts{
-
-    <script src="~/js/userlogin.js"></script>
-    <script src="~/js/userregistration.js"></script>
-
+@section Scripts
+{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_AuthScriptsPartial");
     }
 }

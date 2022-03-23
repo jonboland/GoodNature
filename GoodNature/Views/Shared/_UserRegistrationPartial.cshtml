@@ -9,12 +9,13 @@
             </button>
         </div>
         <div class="modal-body">
+            <div id="alertPlaceholderRegister"></div>
             <form id="userRegistrationForm" name="userRegistrationForm" asp-controller="UserAuth" asp-action="RegisterUser">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="RegistrationInvalid" />
                 <div class="form-group row">
                     <label asp-for="Email" class="col-md-4 col-form-label">
-                        Email:
+                        Email (username):
                     </label>
                     <div class="col-md-8">
                         <input asp-for="Email" class="form-control" />

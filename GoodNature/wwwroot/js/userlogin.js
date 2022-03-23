@@ -1,18 +1,18 @@
 ﻿$(function () {
 
-    var userLoginButton = $("#userLoginModal button[name='login']").click(onUserLoginClick);
+    let userLoginButton = $("#userLoginModal button[name='login']").click(onUserLoginClick);
 
     function onUserLoginClick() {
 
-        var url = "UserAuth/Login";
+        const url = "UserAuth/Login";
 
-        var antiForgeryToken = $("#userLoginModal input[name='__RequestVerificationToken']").val();
+        const antiForgeryToken = $("#userLoginModal input[name='__RequestVerificationToken']").val();
 
-        var email = $("#userLoginModal input[name='Email']").val();
-        var password = $("#userLoginModal input[name='Password']").val();
-        var rememberMe = $("#userLoginModal input[name='RememberMe']").prop('checked');
+        const email = $("#userLoginModal input[name='Email']").val();
+        const password = $("#userLoginModal input[name='Password']").val();
+        const rememberMe = $("#userLoginModal input[name='RememberMe']").prop('checked');
 
-        var userInput = {
+        const userInput = {
             __RequestVerificationToken: antiForgeryToken,
             Email: email,
             Password: password,
@@ -26,9 +26,9 @@
             data: userInput,
             success: function (data) {
 
-                var parsed = $.parseHTML(data);
+                const parsed = $.parseHTML(data);
 
-                var hasErrors = $(parsed).find("input[name='LoginInvalid']").val() == "true";
+                const hasErrors = $(parsed).find("input[name='LoginInvalid']").val() == "true";
 
                 if (hasErrors == true) {
 
@@ -41,7 +41,13 @@
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                console.error(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                DisplayClosableBootstrapAlert(
+                    "#alertPlaceholderLogin",
+                    "danger",
+                    "Error!",
+                    `Status: ${xhr.status} - ${xhr.statusText}`);
+
+                console.error(`${thrownError}\r\n${xhr.statusText}\r\n${xhr.responseText}`);
             }
         });
     }
