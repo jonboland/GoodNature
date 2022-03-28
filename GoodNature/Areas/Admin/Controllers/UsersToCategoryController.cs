@@ -45,18 +45,26 @@ namespace GoodNature.Areas.Admin.Controllers
         public async Task<IActionResult> SaveSelectedUsers(
             [Bind("CategoryId, UsersSelected")] UsersCategoryListModel usersCategoryListModel)
         {
-            var usersSelectedForCategoryToDelete = await GetUsersForCategoryToDelete(usersCategoryListModel.CategoryId);
-            var usersSelectedForCategoryToAdd = await GetUsersForCategoryToAdd(usersCategoryListModel);
+            List<UserCategory> usersSelectedForCategoryToAdd = null;
 
+            if (usersCategoryListModel.UsersSelected != null)
+            {
+                usersSelectedForCategoryToAdd = await GetUsersForCategoryToAdd(usersCategoryListModel);
+            }
+
+            var usersSelectedForCategoryToDelete = await GetUsersForCategoryToDelete(usersCategoryListModel.CategoryId);
+            
             using (var dbContextTransaction = await _context.Database.BeginTransactionAsync())
             {
                 try
                 {
                     _context.RemoveRange(usersSelectedForCategoryToDelete);
+                    await _context.SaveChangesAsync();
 
                     if (usersSelectedForCategoryToAdd != null)
                     {
                         _context.AddRange(usersSelectedForCategoryToAdd);
+                        await _context.SaveChangesAsync();
                     }
 
                     await dbContextTransaction.CommitAsync();

@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<GoodNature.Entities.Category>
 @using GoodNature.Extensions
+@using GoodNature.Areas.Admin.Models
 
 <form id="MembersToCategory" asp-action="Index">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
                 <h4>Category</h4>
-                <select id="CategoryId" name="CategoryId" class="form-control" asp-items="Model.ConvertToSelectList(1)">
-                    <option value="0">--Please choose a Category--</option>
+                <select id="CategoryId" name="CategoryId" class="form-control" asp-items="@Model.ConvertToSelectList(0)">
+                    <option value="">--Please choose a category--</option>
                 </select>
             </div>
         </div>
@@ -18,8 +19,8 @@
         <div class="col-md-10">
             <h4>Members</h4>
             <div class="form-group">
-                <div id="UsersCheckList">
-                    <partial name="_UsersListViewPartial" />
+                <div id="usersCheckList">
+                    <partial name="_UsersListViewPartial" model="new UsersCategoryListModel { CategoryId=0, Users=null, UsersSelected=null }" />
                 </div>
             </div>
         </div>
@@ -33,8 +34,13 @@
     <div class="row">
         <div class="col-md-10">
             <div class="form-group text-right">
-                <button type="button" id="SaveSelectedUsers" name="SaveSelectedUsers" class="btn btn-outline-info">Save</button>
+                <button type="button" id="saveSelectedUsers" name="saveSelectedUsers" class="btn btn-outline-info">Save</button>
             </div>
         </div>
     </div>
 </form>
+
+@section Scripts{
+    <script src="~/js/userstocategory.js"></script>
+    <script src="~/js/bootstrapalerts.js"></script>
+}
