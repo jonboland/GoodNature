@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using GoodNature.Interfaces;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GoodNature.Entities
 {
-    public class Category
+    public class Category : IPrimaryProperties
     {
         public int Id { get; set; }
         [Required(ErrorMessage = Constants.TitleLengthErrorMessage)]
