@@ -2,11 +2,18 @@
 @using GoodNature.Extensions
 @using GoodNature.Areas.Admin.Models
 
-<form id="MembersToCategory" asp-action="Index">
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3 class="mt-4">Assign Users to Categories</h3>
+<hr />
+
+<form id="usersToCategory" asp-action="Index">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <h4>Category</h4>
+                <h4>Categories</h4>
                 <select id="CategoryId" name="CategoryId" class="form-control" asp-items="@Model.ConvertToSelectList(0)">
                     <option value="">--Please choose a category--</option>
                 </select>
@@ -17,7 +24,7 @@
     <hr />
     <div class="row">
         <div class="col-md-10">
-            <h4>Members</h4>
+            <h4>Users</h4>
             <div class="form-group">
                 <div id="usersCheckList">
                     <partial name="_UsersListViewPartial" model="new UsersCategoryListModel { CategoryId=0, Users=null, UsersSelected=null }" />
@@ -39,6 +46,10 @@
         </div>
     </div>
 </form>
+<div class="alert save-success collapse" role="alert">
+    Changes saved
+</div>
+
 
 @section Scripts{
     <script src="~/js/userstocategory.js"></script>
