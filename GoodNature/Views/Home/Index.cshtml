@@ -1,29 +1,27 @@
 ﻿@model CategoryDetailsModel
 
-@using Microsoft.AspNetCore.Identity
-@using GoodNature.Data;
-
-@inject SignInManager<ApplicationUser> SignInManager;
+@using GoodNature.Data
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@if (SignInManager.IsSignedIn(User))
+@if (Model.GroupedCategoryItemsModels != null)
 {
-    <div class="row mt-5">
-        <div class="col-md-6">
-            <h2>Your Organisations</h2>
+    @if (Model.GroupedCategoryItemsModels.Count() > 0)
+    {
+         <div class="row mt-5">
+            <div class="col-md-6">
+                <h2>Your Organisations</h2>
+            </div>
         </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col-md-12">
-            @if (Model.GroupedCategoryItemsModels != null)
-            {
+        <div class="row mt-3">
+            <div class="col-md-12">
                 @foreach (var cat in Model.GroupedCategoryItemsModels)
                 {
                     <div class="card mt-2">
-                        <h4 class="card-header text-secondary bg-white" style="cursor:pointer" data-toggle="collapse" data-target="#collapse_@cat.Id" aria-expanded="false" aria-controls="#collapse_@cat.Id">
+                        <h4 class="card-header text-secondary bg-white" style="cursor:pointer" data-toggle="collapse" data-target="#collapse_@cat.Id"
+                            aria-expanded="false" aria-controls="#collapse_@cat.Id">
                             @cat.Title
                         </h4>
                         <div id="collapse_@cat.Id" class="collapse" aria-expanded="false" aria-controls="#collapse_@cat.Id">
@@ -45,15 +43,21 @@
                         </div>
                     </div>
                 }
-            }
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+         <div class="row mt-5">
+            <div class="col-md-12">
+                <h4 class="text-dark text-center">You haven't selected any organisations to volunteer with yet</h4>
+            </div>
+        </div>
+    }
 }
 else
 {
-    <div class="text-center">
-        <h1 class="display-4">Logged out</h1>
-    </div>
+    <partial name="_DefaultHomePageContentPartial" model=@Model.Categories /> 
 }
 
 <div class="modal fade" id="userLoginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
