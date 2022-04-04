@@ -1,4 +1,5 @@
 ﻿using GoodNature.Data;
+using GoodNature.Entities;
 using GoodNature.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,7 @@ namespace GoodNature.Controllers
 
             if (_signInManager.IsSignedIn(User))
             {
-                var user = await _userManager.GetUserAsync(User);
+                ApplicationUser user = await _userManager.GetUserAsync(User);
 
                 if(user != null)
                 {
@@ -49,6 +50,12 @@ namespace GoodNature.Controllers
 
                     categoryDetailsModel.GroupedCategoryItemsModels = groupedCategoryItemsModels;
                 }
+            }
+            else
+            {
+                List<Category> categoriesWithContent = await GetCategoriesWithContent();
+
+                categoryDetailsModel.Categories = categoriesWithContent;
             }
             
             return View(categoryDetailsModel);
@@ -89,7 +96,23 @@ namespace GoodNature.Controllers
                        Items = g,
                    };
         }
-        
+
+        private async Task<List<Category>> GetCategoriesWithContent()
+        {
+            return await (from category in _context.Category
+                          join categoryItem in _context.CategoryItem
+                          on category.Id equals categoryItem.CategoryId
+                          join content in _context.Content
+                          on categoryItem.Id equals content.CategoryItem.Id
+                          select new Category
+                          {
+                              Id = category.Id,
+                              Title = category.Title,
+                              Description = category.Description,
+                              ThumbnailImagePath = category.ThumbnailImagePath,
+                          }).Distinct().ToListAsync();
+        }
+
         public IActionResult Privacy()
         {
             return View();
