@@ -15,5 +15,17 @@
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" asp-area="Admin" asp-controller="MediaType" asp-action="Index">Media Types</a>
     </div>
-</li>
+    </li>
+}
+else if (!SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="#projects">Projects</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="#contactUs">Contact Us</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="#aboutUs">About Us</a>
+    </li>
 }
