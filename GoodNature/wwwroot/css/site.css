@@ -196,5 +196,12 @@ a:hover .card {
 .btn.btn-primary:active:focus,
 .btn.btn-primary:active:hover {
     background-color: rgba(43, 136, 89);
+    border-color: rgba(43, 136, 89);
+}
+
+/* Bootstrap form control overrides
+-------------------------------------------------- */
+.form-control:focus {
     border-color: rgba(49, 155, 102);
+    box-shadow: 0 0 0 0.2rem rgba(49, 155, 102, 0.25);
 }

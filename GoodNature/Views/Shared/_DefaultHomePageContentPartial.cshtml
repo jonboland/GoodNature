@@ -8,7 +8,7 @@
         <img class="img-fluid rounded" src="~/images/forest-medium.jpg" />
         <div class="hero-heading rounded">
             <h2 class="hero-heading-text">Get involved with <strong>conservation</strong> projects near you</h2>
-            <a id="heroRegisterButton" class="btn btn-lg btn-primary text-light hero-register-button">
+            <a id="heroRegisterButton" class="btn btn-lg btn-primary text-light shadow-none hero-register-button">
                 <strong>Register</strong>
             </a>
         </div>
@@ -20,7 +20,7 @@
 <!--Projects Section-->
 
 <div class="section">
-    <h3 class="section-header">Projects</h3>  
+    <h3 class="section-header">Conservation Projects</h3>  
     @{
         var count = Model.Count() / 4;
         var catList = new List<Category>();
@@ -33,7 +33,7 @@
             @foreach(Category item in catList)
             {
                 <div class="col-md-3">
-                    <a href="#" class="text-dark">
+                    <a href="#" class="text-dark text-decoration-none">
                         <div class="card">
                             <img class="img-thumbnail" src="@item.ThumbnailImagePath" alt="@item.Title">
                             <div class="card-body">
@@ -47,3 +47,51 @@
         </div>
     }
 </div>
+<hr class="section-divider" />
+
+<!--Contact Us Section-->
+
+<div id="contactUs" class="section">
+    <h3 class="section-header">Contact Us</h3>
+    <div class="row mt-3">
+        <div class="col-md-8">
+            Feel free to send us a message if you have any questions about this site.<br>
+            <br>
+            If you have want to ask something about one the conservation projects, you can get in touch
+            with the organisation that runs it directly. Each project has contact details listed
+            in their "Get in touch" section.
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-8">
+            <form>
+                <input type="hidden" />
+                <div class="form-group">
+                    <label for="Name" class="control-label"><strong>Name: </strong></label>
+                    <input id="Name" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <label for="Email" class="control-label"><strong>Email: </strong></label>
+                    <input id="email" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <label for="Subject" class="control-label"><strong>Subject: </strong></label>
+                    <input id="subject" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <label for="MessageBody" class="control-label"><strong>Message: </strong></label>
+                    <textarea id="messagebody" cols="30" rows="10" class="form-control"></textarea>
+
+                </div>
+                <div class="form-group d-flex">
+                    <input type="button" value="Send Email" class="btn btn-primary text-light shadow-none" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr class="section-divider" />
