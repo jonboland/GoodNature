@@ -1,5 +1,4 @@
-﻿@using GoodNature.Entities
-@model IEnumerable<Category>
+﻿@model IEnumerable<Category>
 
 <!--Hero Section-->
 
@@ -22,29 +21,16 @@
 <div class="section">
     <h3 id="projects" class="section-header">Conservation Projects</h3>  
     @{
-        var count = Model.Count() / 4;
+        const int itemsPerRow = 4;
+        
+        int count = Model.Count() / itemsPerRow;
         var catList = new List<Category>();
     }
     @for (int i = 0; i <= count; i++)
     {      
-        catList = Model.Skip(i * 4).Take(4).ToList();
+        catList = Model.Skip(i * itemsPerRow).Take(itemsPerRow).ToList();
 
-        <div class="row mt-3">
-            @foreach(Category item in catList)
-            {
-                <div class="col-md-3">
-                    <a href="#" class="text-dark text-decoration-none">
-                        <div class="card">
-                            <img class="img-thumbnail" src="@item.ThumbnailImagePath" alt="@item.Title">
-                            <div class="card-body">
-                                <h5 class="card-title">@item.Title</h5>
-                                <p class="card-text">@item.Description</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            }
-        </div>
+        <partial name="_DisplayCardRowPartial" model="catList" />
     }
 </div>
 <hr class="section-divider" />

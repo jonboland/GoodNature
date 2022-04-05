@@ -1,0 +1,12 @@
+﻿@model int
+
+@{
+    if (Model == 0)
+    {
+        <a asp-action="Create" class="btn btn-primary btn-sm mt-3 shadow-none"><i class="fa-solid fa-plus mr-2"></i>Add</a>
+    }
+    else
+    {
+        <a asp-action="Create" asp-route-CategoryId="@Model" class="btn btn-primary btn-sm mt-3 shadow-none"><i class="fa-solid fa-plus mr-2"></i>Add</a>
+    }
+}

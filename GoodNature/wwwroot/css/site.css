@@ -209,3 +209,21 @@ a:hover .card {
     border-color: rgba(49, 155, 102);
     box-shadow: 0 0 0 0.2rem rgba(49, 155, 102, 0.25);
 }
+
+/* Navbar separator styles
+-------------------------------------------------- */
+@media only screen and (min-width: 768px) {
+    .navbar .navbar-nav .nav-item .nav-link {
+        padding: 0 0.5em;
+    }
+
+    .navbar .navbar-nav .nav-item:not(:last-child) .nav-link {
+        border-right: 1px solid rgba(37, 116, 77);
+    }
+}
+
+/* Custom width
+-------------------------------------------------- */
+.w-15 {
+    width: 15%;
+}
