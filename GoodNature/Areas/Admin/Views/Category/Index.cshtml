@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<GoodNature.Entities.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
-<h1>Index</h1>
+<h1>Categories</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <partial name="_AddButtonPartial" model="0" />
 </p>
 <table class="table">
     <thead>
