@@ -15,32 +15,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
+            <th class="w-25">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
+            <th class="w-25">
                 @Html.DisplayNameFor(model => model.ThumbnailImagePath)
             </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThumbnailImagePath)
-            </td>
-            <td>
-                <partial name="_RUDButtonsPartial" model="@item.Id"/>
-                <a asp-controller="CategoryItem" asp-action="Index" asp-route-categoryId="@item.Id" class="btn btn-outline-secondary btn-sm">Update Items</a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThumbnailImagePath)
+        </td>
+        <td>
+            <partial name="_RUDButtonsPartial" model="@item.Id"/>
+        </td>
+        <td>
+            <a asp-controller="CategoryItem" asp-action="Index" asp-route-categoryId="@item.Id" class="btn btn-outline-secondary btn-sm float-right">Update Items</a>
+        </td>
+    </tr>
 }
     </tbody>
 </table>
