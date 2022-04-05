@@ -18,10 +18,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
+            <th class="w-15">
                 @Html.DisplayNameFor(model => model.DateTimeItemReleased)
             </th>
-            <th></th>
+            <th class="w-15"></th>
+            <th class="w-15"></th>
         </tr>
     </thead>
     <tbody>
@@ -38,12 +39,14 @@
             </td>
             <td>
                 <partial name="_RUDButtonsPartial" model="@item.Id"/>
-
+            </td>
+            <td>
                 @if (item.ContentId == 0) {
                     <a asp-controller="Content"
                     asp-action="Create"
                     asp-route-categoryItemId="@item.Id"
-                    asp-route-categoryId="@item.CategoryId">
+                    asp-route-categoryId="@item.CategoryId"
+                    class="btn btn-outline-secondary btn-sm float-right">
                         Add Content
                     </a>
                 }
@@ -51,7 +54,8 @@
                     <a asp-controller="Content"
                     asp-action="Edit"
                     asp-route-categoryItemId="@item.Id"
-                    asp-route-categoryId="@item.CategoryId">
+                    asp-route-categoryId="@item.CategoryId"
+                    class="btn btn-outline-secondary btn-sm float-right">
                         Edit Content
                     </a>
                 }

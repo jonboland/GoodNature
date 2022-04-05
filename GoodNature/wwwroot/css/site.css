@@ -221,3 +221,9 @@ a:hover .card {
         border-right: 1px solid rgba(37, 116, 77);
     }
 }
+
+/* Custom width
+-------------------------------------------------- */
+.w-15 {
+    width: 15%;
+}
