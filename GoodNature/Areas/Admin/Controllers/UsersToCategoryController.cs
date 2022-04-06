@@ -16,10 +16,12 @@ namespace GoodNature.Areas.Admin.Controllers
     public class UsersToCategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDataFunctions _dataFunctions;
 
-        public UsersToCategoryController(ApplicationDbContext context)
+        public UsersToCategoryController(ApplicationDbContext context, IDataFunctions dataFunctions)
         {
             _context = context;
+            _dataFunctions = dataFunctions;
         }
 
         public async Task<IActionResult> Index()
@@ -31,8 +33,8 @@ namespace GoodNature.Areas.Admin.Controllers
         {
             UsersCategoryListModel usersCategoryListModel = new();
 
-            var allUsers = await GetAllUsers();
-            var selectedUsersForCategory = await GetSavedSelectedUsersForCategory(categoryId);
+            List<UserModel> allUsers = await GetAllUsers();
+            List<UserModel> selectedUsersForCategory = await GetSavedSelectedUsersForCategory(categoryId);
 
             usersCategoryListModel.Users = allUsers;
             usersCategoryListModel.UsersSelected = selectedUsersForCategory;
@@ -52,28 +54,9 @@ namespace GoodNature.Areas.Admin.Controllers
                 usersSelectedForCategoryToAdd = await GetUsersForCategoryToAdd(usersCategoryListModel);
             }
 
-            var usersSelectedForCategoryToDelete = await GetUsersForCategoryToDelete(usersCategoryListModel.CategoryId);
-            
-            using (var dbContextTransaction = await _context.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    _context.RemoveRange(usersSelectedForCategoryToDelete);
-                    await _context.SaveChangesAsync();
+            List<UserCategory> usersSelectedForCategoryToDelete = await GetUsersForCategoryToDelete(usersCategoryListModel.CategoryId);
 
-                    if (usersSelectedForCategoryToAdd != null)
-                    {
-                        _context.AddRange(usersSelectedForCategoryToAdd);
-                        await _context.SaveChangesAsync();
-                    }
-
-                    await dbContextTransaction.CommitAsync();
-                }
-                catch (Exception ex)
-                {
-                    await dbContextTransaction.DisposeAsync();
-                }
-            }
+            await _dataFunctions.UpdateUserCategoryEntityAsync(usersSelectedForCategoryToDelete, usersSelectedForCategoryToAdd);
 
             usersCategoryListModel.Users = await GetAllUsers();
 
@@ -82,56 +65,56 @@ namespace GoodNature.Areas.Admin.Controllers
 
         private async Task<List<UserModel>> GetAllUsers()
         {
-            var allUsers = await (from user in _context.Users
-                                  select new UserModel
-                                  {
-                                      Id = user.Id,
-                                      UserName = user.UserName,
-                                      FirstName = user.FirstName,
-                                      LastName = user.LastName,
+            List<UserModel> allUsers = await (from user in _context.Users
+                                              select new UserModel
+                                              {
+                                                  Id = user.Id,
+                                                  UserName = user.UserName,
+                                                  FirstName = user.FirstName,
+                                                  LastName = user.LastName,
 
-                                  }).ToListAsync();
+                                              }).ToListAsync();
 
             return allUsers;
         }
 
         private async Task<List<UserModel>> GetSavedSelectedUsersForCategory(int categoryId)
         {
-            var savedSelectedUsersForCategory = await (from usersToCat in _context.UserCategory
-                                                       where usersToCat.CategoryId == categoryId
-                                                       select new UserModel
-                                                       {
-                                                           Id = usersToCat.UserId,
+            List<UserModel> savedSelectedUsersForCategory = await (from usersToCat in _context.UserCategory
+                                                                   where usersToCat.CategoryId == categoryId
+                                                                   select new UserModel
+                                                                   {
+                                                                       Id = usersToCat.UserId,
 
-                                                       }).ToListAsync();
+                                                                   }).ToListAsync();
 
             return savedSelectedUsersForCategory;
         }
 
         private async Task<List<UserCategory>> GetUsersForCategoryToDelete(int categoryId)
         {
-            var usersForCategoryToDelete = await (from userCat in _context.UserCategory
-                                                  where userCat.CategoryId == categoryId
-                                                  select new UserCategory
-                                                  {
-                                                      Id = userCat.Id,
-                                                      CategoryId = categoryId,
-                                                      UserId = userCat.UserId,
+            List<UserCategory> usersForCategoryToDelete = await (from userCat in _context.UserCategory
+                                                                 where userCat.CategoryId == categoryId
+                                                                 select new UserCategory
+                                                                 {
+                                                                     Id = userCat.Id,
+                                                                     CategoryId = categoryId,
+                                                                     UserId = userCat.UserId,
 
-                                                  }).ToListAsync();
+                                                                 }).ToListAsync();
 
             return usersForCategoryToDelete;
         }
 
         private async Task<List<UserCategory>> GetUsersForCategoryToAdd(UsersCategoryListModel usersCategoryListModel)
         {
-            var usersForCategoryToAdd = (from userCat in usersCategoryListModel.UsersSelected
-                                         select new UserCategory
-                                         {
-                                             CategoryId = usersCategoryListModel.CategoryId,
-                                             UserId = userCat.Id,
+            List<UserCategory> usersForCategoryToAdd = (from userCat in usersCategoryListModel.UsersSelected
+                                                        select new UserCategory
+                                                        {
+                                                            CategoryId = usersCategoryListModel.CategoryId,
+                                                            UserId = userCat.Id,
                                          
-                                         }).ToList();
+                                                        }).ToList();
             
             return await Task.FromResult(usersForCategoryToAdd);
         }

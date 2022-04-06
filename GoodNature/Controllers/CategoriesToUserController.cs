@@ -1,6 +1,7 @@
 ﻿using GoodNature.Data;
 using GoodNature.Entities;
 using GoodNature.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,15 +11,18 @@ using System.Threading.Tasks;
 
 namespace GoodNature.Controllers
 {
+    [Authorize]
     public class CategoriesToUserController : Controller
     {
         private ApplicationDbContext _context;
         private UserManager<ApplicationUser> _userManager;
+        private IDataFunctions _dataFunctions;
 
-        public CategoriesToUserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public CategoriesToUserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IDataFunctions dataFunctions)
         {
             _context = context;
             _userManager = userManager;
+            _dataFunctions = dataFunctions;
         }
 
         public async Task<IActionResult> Index()
@@ -36,14 +40,20 @@ namespace GoodNature.Controllers
             return View(categoriesToUserModel);
         }
 
-        //public async Task<IActionResult> Index(string[] categoriesSelected)
-        //{
-        //    string userId = _userManager.GetUserAsync(User).Result?.Id;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(string[] categoriesSelected)
+        {
+            string userId = _userManager.GetUserAsync(User).Result?.Id;
 
-        //    List<UserCategory> usersCategoriesToDelete = await GetCategoriesToDeleteForUser(userId);
+            List<UserCategory> usersCategoriesToDelete = await GetCategoriesToDeleteForUser(userId);
 
-        //    List<UserCategory> usersCategoriesToAdd = GetCategoriesToAddForUser(categoriesSelected, userId);
-        //}
+            List<UserCategory> usersCategoriesToAdd = GetCategoriesToAddForUser(categoriesSelected, userId);
+
+            await _dataFunctions.UpdateUserCategoryEntityAsync(usersCategoriesToDelete, usersCategoriesToAdd);
+
+            return RedirectToAction("Index", "Home");
+        }
 
         private async Task<List<Category>> GetCategoriesThatHaveContent()
         {
