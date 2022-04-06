@@ -90,7 +90,7 @@ namespace GoodNature.Controllers
                                                                   where userCat.UserId == userId
                                                                   select new UserCategory
                                                                   {
-                                                                      Id = userCat.CategoryId,
+                                                                      Id = userCat.Id,
                                                                       CategoryId = userCat.CategoryId,
                                                                       UserId = userId,
                                                                   }).ToListAsync();
