@@ -37,5 +37,6 @@ namespace GoodNature.Models
         public string PhoneNumber { get; set; }
         public bool AcceptUserAgreement { get; set; }
         public string RegistrationInvalid { get; set; }
+        public int CategoryId { get; set; }
     }
 }
