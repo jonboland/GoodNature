@@ -1,4 +1,5 @@
 ﻿using GoodNature.Data;
+using GoodNature.Entities;
 using GoodNature.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -78,7 +79,7 @@ namespace GoodNature.Controllers
             
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser
+                var user = new ApplicationUser
                 {
                     UserName = registrationModel.Email,
                     Email = registrationModel.Email,
@@ -90,7 +91,7 @@ namespace GoodNature.Controllers
                     Postcode = registrationModel.Postcode,
                 };
 
-                var result = await _userManager.CreateAsync(user, registrationModel.Password);
+                IdentityResult result = await _userManager.CreateAsync(user, registrationModel.Password);
 
                 if (result.Succeeded)
                 {
@@ -98,8 +99,12 @@ namespace GoodNature.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    return PartialView("_UserRegistrationPartial", registrationModel);
-                
+                    if (registrationModel.CategoryId != 0)
+                    {
+                        await RelateCategoryToUser(user.Id, registrationModel.CategoryId);
+                    }
+
+                    return PartialView("_UserRegistrationPartial", registrationModel);               
                 }
 
                 AddErrorsToModelState(result);
@@ -124,6 +129,19 @@ namespace GoodNature.Controllers
             }
 
             return false;
+        }
+
+        private async Task RelateCategoryToUser(string userId, int categoryId)
+        {
+            var userCategory = new UserCategory
+            {
+                UserId = userId,
+                CategoryId = categoryId,
+            };
+
+            _context.UserCategory.Add(userCategory);
+
+            await _context.SaveChangesAsync();
         }
 
         private void AddErrorsToModelState(IdentityResult result)
