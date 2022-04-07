@@ -227,3 +227,9 @@ a:hover .card {
 .w-15 {
     width: 15%;
 }
+
+/* Custom margin
+-------------------------------------------------- */
+.mt-1px {
+    margin-top: 1px;
+}
