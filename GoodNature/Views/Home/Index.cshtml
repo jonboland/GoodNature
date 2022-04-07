@@ -8,18 +8,20 @@
 
 @if (Model.GroupedCategoryItemsModels != null)
 {
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h2>Your Conservation Projects</h2>
+        </div>
+        <div class="col-md-6 text-right">
+            <a asp-controller="CategoriesToUser" asp-action="Index" class="btn btn-outline-dark">Choose Projects</a>
+        </div>
+    </div>
+
     @if (Model.GroupedCategoryItemsModels.Count() > 0)
     {
-         <div class="row mt-5">
-            <div class="col-md-6">
-                <h2>Your Conservation Projects</h2>
-            </div>
-            <div class="col-md-6 text-right">
-                <a asp-controller="CategoriesToUser" asp-action="Index" class="btn btn-outline-dark">Choose Projects</a>
-            </div>
-        </div>
         <div class="row mt-3">
             <div class="col-md-12">
+
                 @foreach (var cat in Model.GroupedCategoryItemsModels)
                 {
                     <div class="card mt-2">
@@ -46,6 +48,7 @@
                         </div>
                     </div>
                 }
+
             </div>
         </div>
     }
@@ -53,7 +56,7 @@
     {
          <div class="row mt-5">
             <div class="col-md-12">
-                <h4 class="text-dark text-center">You haven't selected any conservation projects to volunteer with yet</h4>
+                <h4 class="text-dark text-center">You haven't selected any conservation projects yet.</h4>
             </div>
         </div>
     }
