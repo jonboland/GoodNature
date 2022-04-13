@@ -2,9 +2,9 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 :root {
-    --main-color: #194d33;
-    --focus-hover-color: #25744d;
-    --active-color: #319b66;
+    --dark-green: #194d33;
+    --mid-green: #25744d;
+    --lighter-green: #319b66;
 }
 
 .main-default {
@@ -137,7 +137,7 @@ body {
 
 .section-divider {
     height: 1px;
-    background-color: var(--main-color);
+    background-color: var(--dark-green);
     margin-top: 40px;
 }
 
@@ -172,15 +172,15 @@ a:hover .card {
 -------------------------------------------------- */
 .btn-primary {
     color: #fff;
-    background-color: var(--main-color);
-    border-color: var(--main-color);
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
 }
 
 .btn.btn-primary.focus,
 .btn.btn-primary:focus,
 .btn.btn-primary:hover {
-    background-color: var(--focus-hover-color);
-    border-color: var(--focus-hover-color);
+    background-color: var(--mid-green);
+    border-color: var(--mid-green);
 }
 
 .btn.btn-primary.active,
@@ -191,23 +191,22 @@ a:hover .card {
 .btn.btn-primary:active.focus,
 .btn.btn-primary:active:focus,
 .btn.btn-primary:active:hover,
-.btn-primary:not(:disabled):not(.disabled):active
-{
-    background-color: var(--active-color);
-    border-color: var(--active-color);
+.btn-primary:not(:disabled):not(.disabled):active {
+    background-color: var(--lighter-green);
+    border-color: var(--lighter-green);
 }
 
 .btn-primary:disabled {
-    background-color: var(--active-color);
-    border-color: var(--active-color);
+    background-color: var(--lighter-green);
+    border-color: var(--lighter-green);
 }
 
 
 /* Bootstrap form control overrides
 -------------------------------------------------- */
 .form-control:focus {
-    border-color: var(--active-color);
-    box-shadow: 0 0 0 0.2rem rgba(49, 155, 102, 0.25);  /* --active-color */ 
+    border-color: var(--lighter-green);
+    box-shadow: 0 0 0 0.2rem rgba(49, 155, 102, 0.25); /* --lighter-green */
 }
 
 /* Navbar separator styles
@@ -218,7 +217,7 @@ a:hover .card {
     }
 
     .navbar .navbar-nav .nav-item:not(:last-child) .nav-link {
-        border-right: 1px solid var(--focus-hover-color);
+        border-right: 1px solid var(--mid-green);
     }
 }
 
@@ -232,4 +231,21 @@ a:hover .card {
 -------------------------------------------------- */
 .mt-1px {
     margin-top: 1px;
+}
+
+/* Custom colors
+-------------------------------------------------- */
+
+.bg-mid-green {
+    background-color: var(--mid-green); /* --lighter-green */
+}
+
+.bg-lighter-green-005 {
+    background-color: rgba(49, 155, 102, 0.05); /* --lighter-green */
+}
+
+/* Pointer
+-------------------------------------------------- */
+.pointer {
+    cursor: pointer;
 }
