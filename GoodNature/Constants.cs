@@ -6,11 +6,11 @@
         public const string TitleLengthErrorMessage = "The title's length must be between two and 200 characters.";
 
         public const string ThumbnailImagePathDisplayName = "Thumbnail Path";
+        public const string MediaTypeDisplayName = "Media Type";
 
         // CategoryItem Entity
         public const string MissingMediaTypeErrorMessage = "Please select an option from the {0} dropdown list.";
 
-        public const string MediaTypeIdDisplayName = "Media Type";
         public const string DateTimeItemReleasedDisplayName = "Release Date";
 
         // Content Entity
