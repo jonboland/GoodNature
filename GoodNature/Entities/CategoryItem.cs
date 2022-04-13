@@ -16,7 +16,7 @@ namespace GoodNature.Entities
         public string Description { get; set; }
         public int CategoryId { get; set; }
         [Required(ErrorMessage = Constants.MissingMediaTypeErrorMessage)]
-        [Display(Name = Constants.MediaTypeIdDisplayName)]
+        [Display(Name = Constants.MediaTypeDisplayName)]
         public int MediaTypeId { get; set; }
         [NotMapped]
         public virtual ICollection<SelectListItem> MediaTypes { get; set; }
