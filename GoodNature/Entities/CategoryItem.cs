@@ -13,7 +13,7 @@ namespace GoodNature.Entities
         public int Id { get; set; }
         
         [Required(ErrorMessage = Constants.TitleLengthErrorMessage)]
-        [StringLength(200, MinimumLength = 2, ErrorMessage = Constants.TitleLengthErrorMessage)]       
+        [StringLength(200, MinimumLength = 2, ErrorMessage = Constants.TitleLengthErrorMessage)]  
         public string Title { get; set; }
         
         public string Description { get; set; }
