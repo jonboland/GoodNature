@@ -39,11 +39,11 @@
                                 <div class="clearfix">
                                     <img src="@item.MediaImagePath" width="100" height="100" class="img-thumbnail float-left mr-4" />
                                     <h5 class="card-title mt-4">
-                                        <a class="text-dark" asp-controller="Content" asp-action="Index" asp-route-CategoryItemId="@item.CategoryItemId">
+                                        <a class="text-dark mr-2" asp-controller="Content" asp-action="Index" asp-route-CategoryItemId="@item.CategoryItemId">
                                             @item.CategoryItemTitle
                                         </a>
                                     </h5>
-                                    <p class="card-text text-dark mt-2">
+                                    <p class="card-text text-dark mt-2 mr-2">
                                         @item.CategoryItemDescription
                                     </p>
                                 </div>
