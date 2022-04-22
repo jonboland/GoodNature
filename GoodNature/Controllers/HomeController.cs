@@ -53,7 +53,7 @@ namespace GoodNature.Controllers
             }
             else
             {
-                List<Category> categoriesWithContent = await GetCategoriesWithContent();
+                IEnumerable<Category> categoriesWithContent = await GetCategoriesWithContent();
 
                 categoryDetailsModel.Categories = categoriesWithContent;
             }
@@ -61,7 +61,7 @@ namespace GoodNature.Controllers
             return View(categoryDetailsModel);
         }
 
-        private async Task<IEnumerable<CategoryItemDetailsModel>> GetCategoryItemDetailsForUser(string userId)
+        private async Task<List<CategoryItemDetailsModel>> GetCategoryItemDetailsForUser(string userId)
         {
             return await (from catItem in _context.CategoryItem
                           join category in _context.Category

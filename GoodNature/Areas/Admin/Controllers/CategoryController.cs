@@ -36,8 +36,8 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var category = await _context.Category.FirstOrDefaultAsync(m => m.Id == id);
+
             if (category == null)
             {
                 return NotFound();
@@ -65,6 +65,7 @@ namespace GoodNature.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(category);
         }
 
@@ -77,10 +78,12 @@ namespace GoodNature.Areas.Admin.Controllers
             }
 
             var category = await _context.Category.FindAsync(id);
+
             if (category == null)
             {
                 return NotFound();
             }
+
             return View(category);
         }
 

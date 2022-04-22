@@ -33,8 +33,8 @@ namespace GoodNature.Areas.Admin.Controllers
         {
             UsersCategoryListModel usersCategoryListModel = new();
 
-            List<UserModel> allUsers = await GetAllUsers();
-            List<UserModel> selectedUsersForCategory = await GetSavedSelectedUsersForCategory(categoryId);
+            ICollection<UserModel> allUsers = await GetAllUsers();
+            ICollection<UserModel> selectedUsersForCategory = await GetSavedSelectedUsersForCategory(categoryId);
 
             usersCategoryListModel.Users = allUsers;
             usersCategoryListModel.UsersSelected = selectedUsersForCategory;
@@ -45,7 +45,7 @@ namespace GoodNature.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveSelectedUsers(
-            [Bind("CategoryId, UsersSelected")] UsersCategoryListModel usersCategoryListModel)
+            [Bind("CategoryId,UsersSelected")] UsersCategoryListModel usersCategoryListModel)
         {
             List<UserCategory> usersSelectedForCategoryToAdd = null;
 
@@ -65,45 +65,39 @@ namespace GoodNature.Areas.Admin.Controllers
 
         private async Task<List<UserModel>> GetAllUsers()
         {
-            List<UserModel> allUsers = await (from user in _context.Users
-                                              select new UserModel
-                                              {
-                                                  Id = user.Id,
-                                                  UserName = user.UserName,
-                                                  FirstName = user.FirstName,
-                                                  LastName = user.LastName,
+            return await (from user in _context.Users
+                          select new UserModel
+                          {
+                              Id = user.Id,
+                              UserName = user.UserName,
+                              FirstName = user.FirstName,
+                              LastName = user.LastName,
 
-                                              }).ToListAsync();
-
-            return allUsers;
+                          }).ToListAsync();
         }
 
         private async Task<List<UserModel>> GetSavedSelectedUsersForCategory(int categoryId)
         {
-            List<UserModel> savedSelectedUsersForCategory = await (from usersToCat in _context.UserCategory
-                                                                   where usersToCat.CategoryId == categoryId
-                                                                   select new UserModel
-                                                                   {
-                                                                       Id = usersToCat.UserId,
+            return await (from usersToCat in _context.UserCategory
+                          where usersToCat.CategoryId == categoryId
+                          select new UserModel
+                          {
+                              Id = usersToCat.UserId,
 
-                                                                   }).ToListAsync();
-
-            return savedSelectedUsersForCategory;
+                          }).ToListAsync();
         }
 
         private async Task<List<UserCategory>> GetUsersForCategoryToDelete(int categoryId)
         {
-            List<UserCategory> usersForCategoryToDelete = await (from userCat in _context.UserCategory
-                                                                 where userCat.CategoryId == categoryId
-                                                                 select new UserCategory
-                                                                 {
-                                                                     Id = userCat.Id,
-                                                                     CategoryId = categoryId,
-                                                                     UserId = userCat.UserId,
+            return await (from userCat in _context.UserCategory
+                          where userCat.CategoryId == categoryId
+                          select new UserCategory
+                          {
+                              Id = userCat.Id,
+                              CategoryId = categoryId,
+                              UserId = userCat.UserId,
 
-                                                                 }).ToListAsync();
-
-            return usersForCategoryToDelete;
+                          }).ToListAsync();
         }
 
         private async Task<List<UserCategory>> GetUsersForCategoryToAdd(UsersCategoryListModel usersCategoryListModel)

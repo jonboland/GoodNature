@@ -44,10 +44,13 @@ namespace GoodNature.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 content.CategoryItem = await _context.CategoryItem.FindAsync(content.CatItemId);
+
                 _context.Add(content);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index), "CategoryItem", new { categoryId = content.CategoryId });
             }
+
             return View(content);
         }
 
@@ -67,6 +70,7 @@ namespace GoodNature.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
             return View(content);
         }
 
@@ -100,8 +104,10 @@ namespace GoodNature.Areas.Admin.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index), "CategoryItem", new { categoryId=content.CategoryId });
             }
+
             return View(content);
         }
 

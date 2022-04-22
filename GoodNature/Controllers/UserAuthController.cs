@@ -123,12 +123,7 @@ namespace GoodNature.Controllers
 
             bool userNameExists = await _context.Users.AnyAsync(u => u.UserName.ToUpper() == userName.ToUpper());
 
-            if (userNameExists)
-            {
-                return true;
-            }
-
-            return false;
+            return userNameExists;
         }
 
         private async Task RelateCategoryToUser(string userId, int categoryId)
