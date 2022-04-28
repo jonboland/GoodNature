@@ -34,8 +34,11 @@ namespace GoodNature.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<CategoryItemDetailsModel> categoryItemDetailsModels = null;
-            IEnumerable<GroupedCategoryItemsModel> groupedCategoryItemsModels = null;
+            IEnumerable<CategoryItemDetailsModel> selectedCategoryItemDetailsModels = null;
+            IEnumerable<CategoryItemDetailsModel> activeCategoryItemDetailsModels = null;
+
+            IEnumerable<GroupedCategoryItemsModel> selectedGroupedCategoryItemsModels = null;
+            IEnumerable<GroupedCategoryItemsModel> activeGroupedCategoryItemsModels = null;
 
             CategoryDetailsModel categoryDetailsModel = new();
 
@@ -45,10 +48,14 @@ namespace GoodNature.Controllers
 
                 if(user != null)
                 {
-                    categoryItemDetailsModels = await GetCategoryItemDetailsForUser(user.Id);
-                    groupedCategoryItemsModels = GetGroupedCategoryItemsModel(categoryItemDetailsModels);
+                    selectedCategoryItemDetailsModels = await GetSelectedCategoryItemDetailsForUser(user.Id);
+                    activeCategoryItemDetailsModels = await GetActiveCategoryItemDetailsForUser(user.Id);
 
-                    categoryDetailsModel.GroupedCategoryItemsModels = groupedCategoryItemsModels;
+                    selectedGroupedCategoryItemsModels = GetGroupedCategoryItemsModel(selectedCategoryItemDetailsModels);
+                    activeGroupedCategoryItemsModels = GetGroupedCategoryItemsModel(activeCategoryItemDetailsModels);
+
+                    categoryDetailsModel.SelectedGroupedCategoryItemsModels = selectedGroupedCategoryItemsModels;
+                    categoryDetailsModel.ActiveGroupedCategoryItemsModels = activeGroupedCategoryItemsModels;
                 }
             }
             else
@@ -61,7 +68,7 @@ namespace GoodNature.Controllers
             return View(categoryDetailsModel);
         }
 
-        private async Task<List<CategoryItemDetailsModel>> GetCategoryItemDetailsForUser(string userId)
+        private async Task<List<CategoryItemDetailsModel>> GetSelectedCategoryItemDetailsForUser(string userId)
         {
             return await (from catItem in _context.CategoryItem
                           join category in _context.Category
@@ -72,7 +79,7 @@ namespace GoodNature.Controllers
                           on category.Id equals userCat.CategoryId
                           join mediaType in _context.MediaType
                           on catItem.MediaTypeId equals mediaType.Id
-                          where userCat.UserId == userId
+                          where userCat.UserId == userId && userCat.Active == false
                           select new CategoryItemDetailsModel
                           {
                               CategoryId = category.Id,
@@ -81,6 +88,31 @@ namespace GoodNature.Controllers
                               CategoryItemTitle = catItem.Title,
                               CategoryItemDescription = catItem.Description,
                               MediaImagePath = mediaType.ThumbnailImagePath,
+
+                          }).ToListAsync();
+        }
+
+        private async Task<List<CategoryItemDetailsModel>> GetActiveCategoryItemDetailsForUser(string userId)
+        {
+            return await (from catItem in _context.CategoryItem
+                          join category in _context.Category
+                          on catItem.CategoryId equals category.Id
+                          join content in _context.Content
+                          on catItem.Id equals content.CategoryItem.Id
+                          join userCat in _context.UserCategory
+                          on category.Id equals userCat.CategoryId
+                          join mediaType in _context.MediaType
+                          on catItem.MediaTypeId equals mediaType.Id
+                          where userCat.UserId == userId && userCat.Active == true
+                          select new CategoryItemDetailsModel
+                          {
+                              CategoryId = category.Id,
+                              CategoryTitle = category.Title,
+                              CategoryItemId = catItem.Id,
+                              CategoryItemTitle = catItem.Title,
+                              CategoryItemDescription = catItem.Description,
+                              MediaImagePath = mediaType.ThumbnailImagePath,
+
                           }).ToListAsync();
         }
 
@@ -110,6 +142,7 @@ namespace GoodNature.Controllers
                               Title = category.Title,
                               Description = category.Description,
                               ThumbnailImagePath = category.ThumbnailImagePath,
+
                           }).Distinct().ToListAsync();
         }
 
