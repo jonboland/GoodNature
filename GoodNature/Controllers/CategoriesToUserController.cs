@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,6 +37,8 @@ namespace GoodNature.Controllers
 
             categoriesToUserModel.CategoriesSelected = await GetCategoriesCurrentlySavedForUser(userId);
 
+            categoriesToUserModel.CategoriesActive = await GetCategoriesCurrentlyActiveForUser(userId);
+
             categoriesToUserModel.UserId = userId;
 
             return View(categoriesToUserModel);
@@ -43,13 +46,13 @@ namespace GoodNature.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(string[] categoriesSelected)
+        public async Task<IActionResult> Index(string[] categoriesSelected, string[] categoriesActive)
         {
             string userId = _userManager.GetUserAsync(User).Result?.Id;
 
             List<UserCategory> usersCategoriesToDelete = await GetCategoriesToDeleteForUser(userId);
 
-            List<UserCategory> usersCategoriesToAdd = GetCategoriesToAddForUser(categoriesSelected, userId);
+            List<UserCategory> usersCategoriesToAdd = GetCategoriesToAddForUser(categoriesSelected, categoriesActive, userId);
 
             await _dataFunctions.UpdateUserCategoryEntityAsync(usersCategoriesToDelete, usersCategoriesToAdd);
 
@@ -68,6 +71,7 @@ namespace GoodNature.Controllers
                               Id = category.Id,
                               Title = category.Title,
                               Description = category.Description,
+
                           }).Distinct().ToListAsync();
         }
 
@@ -78,7 +82,19 @@ namespace GoodNature.Controllers
                           select new Category
                           {
                               Id = userCategory.CategoryId,
+
                           }).ToListAsync();           
+        }
+
+        private async Task<List<Category>> GetCategoriesCurrentlyActiveForUser(string userId)
+        {
+            return await (from userCategory in _context.UserCategory
+                          where userCategory.UserId == userId && userCategory.Active == true
+                          select new Category
+                          {
+                              Id = userCategory.CategoryId,
+
+                          }).ToListAsync();
         }
 
         private async Task<List<UserCategory>> GetCategoriesToDeleteForUser(string userId)
@@ -90,16 +106,21 @@ namespace GoodNature.Controllers
                               Id = userCat.Id,
                               CategoryId = userCat.CategoryId,
                               UserId = userId,
+
                           }).ToListAsync();
         }
 
-        private List<UserCategory> GetCategoriesToAddForUser(string[] categoriesSelected, string userId)
+        private List<UserCategory> GetCategoriesToAddForUser(string[] categoriesSelected, string[] categoriesActive, string userId)
         {
-            return (from categoryId in categoriesSelected
+            IEnumerable<string> categoriesSelectedAndActive = categoriesSelected.Union(categoriesActive);
+
+            return (from categoryId in categoriesSelectedAndActive
                     select new UserCategory
                     {
                         UserId = userId,
                         CategoryId = int.Parse(categoryId),
+                        Active = categoriesActive.Contains(categoryId),
+
                     }).ToList();
         }
     }
