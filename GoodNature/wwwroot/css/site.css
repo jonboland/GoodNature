@@ -221,8 +221,12 @@ a:hover .card {
     }
 }
 
-/* Custom width
+/* Custom widths
 -------------------------------------------------- */
+.w-70 {
+    width: 70%;
+}
+
 .w-15 {
     width: 15%;
 }
@@ -237,11 +241,11 @@ a:hover .card {
 -------------------------------------------------- */
 
 .bg-mid-green {
-    background-color: var(--mid-green); /* --lighter-green */
+    background-color: var(--mid-green);
 }
 
 .bg-lighter-green-005 {
-    background-color: rgba(49, 155, 102, 0.05); /* --lighter-green */
+    background-color: rgba(49, 155, 102, 0.05); /* --lighter-green 5% opacity */
 }
 
 /* Pointer

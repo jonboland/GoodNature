@@ -7,32 +7,42 @@
 </div>
 <form asp-action="Index">
     <div class="row mt-3">
-        <div class="col-md-10">
+        <div class="col-md-9">
             <table class="table table-bordered">
                 @if (Model != null)
                 {
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>Name</th>
+                            <th class="w-70">Name</th>
+                            <th class="text-center w-15">Shortlist</th>
+                            <th class="text-center w-15">Apply</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var category in Model.Categories)
                         {
                             <tr>
-                                <td class="text-center w-15">
+                                <td>@category.Title</td>
+                                <td class="text-center">
                                     @if (Model.CategoriesSelected != null && Model.CategoriesSelected.Contains(category, new CompareCategories()))
                                     {
-                                        <input type="checkbox" class="form-check-input" id="categoriesSelected" name="categoriesSelected" checked value="@category.Id" />
+                                        <input type="checkbox" class="form-check-inline m-0" id="categoriesSelected" name="categoriesSelected" checked value="@category.Id" />
                                     }
                                     else
                                     {
-                                        <input type="checkbox" class="form-check-input" id="categoriesSelected" name="categoriesSelected" value="@category.Id" />                                        
+                                        <input type="checkbox" class="form-check-inline m-0" id="categoriesSelected" name="categoriesSelected" value="@category.Id" />                                        
                                     }
                                 </td>
-                                <td>@category.Title</td>
-
+                                <td class="text-center">
+                                    @if (Model.CategoriesActive != null && Model.CategoriesActive.Contains(category, new CompareCategories()))
+                                    {
+                                        <input type="checkbox" class="form-check-inline m-0" id="categoriesActive" name="categoriesActive" checked value="@category.Id" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" class="form-check-inline m-0" id="categoriesActive" name="categoriesActive" value="@category.Id" />                                        
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>

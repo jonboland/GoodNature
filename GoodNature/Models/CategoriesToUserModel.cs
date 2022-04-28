@@ -8,5 +8,6 @@ namespace GoodNature.Models
         public string UserId { get; set; }
         public ICollection<Category> Categories { get; set; }
         public ICollection<Category> CategoriesSelected { get; set; }
+        public ICollection<Category> CategoriesActive { get; set; }
     }
 }

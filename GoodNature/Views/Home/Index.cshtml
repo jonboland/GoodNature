@@ -6,7 +6,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-@if (Model.GroupedCategoryItemsModels != null)
+@if (Model.GroupedActiveCategoryItemsModels != null || Model.GroupedSelectedCategoryItemsModels != null)
 {
     <div class="row mt-5">
         <div class="col-md-6">
@@ -17,48 +17,24 @@
         </div>
     </div>
 
-    @if (Model.GroupedCategoryItemsModels.Count() > 0)
+    bool active = Model.GroupedActiveCategoryItemsModels.Count() > 0;
+    bool selected = Model.GroupedSelectedCategoryItemsModels.Count() > 0;
+
+    if (active || selected)
     {
-        <div class="row mt-3">
-            <div class="col-md-12">
+        if (active)
+        {
+            <h3 class="mt-4">Applied</h3>
 
-                @foreach (var cat in Model.GroupedCategoryItemsModels)
-                {
-                    var items = cat.Items.ToList();
-                    int itemCount = items.Count();
+            <partial name="_GroupedCategoryItemsPartial" model="@Model.GroupedActiveCategoryItemsModels" />
+        }
+        if (selected)
+        {
+            <h3 class="mt-4">Shortlisted</h3>
 
-                    <div class="card mt-4">
-                        <h4 class="card-header text-light bg-mid-green pointer" data-toggle="collapse" data-target="#collapse_@cat.Id"
-                            aria-expanded="false" aria-controls="#collapse_@cat.Id">
-                            @cat.Title
-                        </h4>
-                        <div id="collapse_@cat.Id" class="collapse pl-2 pb-4 bg-lighter-green-005" aria-expanded="false" aria-controls="#collapse_@cat.Id">
-                            @for (int i = 0; i < itemCount; i++)
-                            {
-                                var item = items[i];
-                                <div class="clearfix">
-                                    <img src="@item.MediaImagePath" width="100" height="100" class="img-thumbnail float-left mr-4" />
-                                    <h5 class="card-title mt-4">
-                                        <a class="text-dark mr-2" asp-controller="Content" asp-action="Index" asp-route-CategoryItemId="@item.CategoryItemId">
-                                            @item.CategoryItemTitle
-                                        </a>
-                                    </h5>
-                                    <p class="card-text text-dark mt-2 mr-2">
-                                        @item.CategoryItemDescription
-                                    </p>
-                                </div>
-                                @if (i < itemCount - 1)
-                                {
-                                    <hr class="mt-4 mb-0 mr-2"/>
-                                }
-                            }
-                        </div>
-                    </div>
-                }
-
-            </div>
-        </div>
-    }
+            <partial name="_GroupedCategoryItemsPartial" model="@Model.GroupedSelectedCategoryItemsModels" />
+        }       
+    }   
     else
     {
          <div class="row mt-5">

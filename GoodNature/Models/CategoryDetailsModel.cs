@@ -5,7 +5,8 @@ namespace GoodNature.Models
 {
     public class CategoryDetailsModel
     {
-        public IEnumerable<GroupedCategoryItemsModel> GroupedCategoryItemsModels { get; set; }
+        public IEnumerable<GroupedCategoryItemsModel> GroupedSelectedCategoryItemsModels { get; set; }
+        public IEnumerable<GroupedCategoryItemsModel> GroupedActiveCategoryItemsModels { get; set; }
         public IEnumerable<Category> Categories { get; set; }
     }
 }

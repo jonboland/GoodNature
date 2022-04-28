@@ -19,24 +19,24 @@ namespace GoodNature.Controllers
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IDataFunctions _dataFunctions;
 
         public HomeController(
             ILogger<HomeController> logger,
             ApplicationDbContext context,
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IDataFunctions dataFunctions)
         {
             _logger = logger;
             _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
+            _dataFunctions = dataFunctions;
         }
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<CategoryItemDetailsModel> categoryItemDetailsModels = null;
-            IEnumerable<GroupedCategoryItemsModel> groupedCategoryItemsModels = null;
-
             CategoryDetailsModel categoryDetailsModel = new();
 
             if (_signInManager.IsSignedIn(User))
@@ -45,10 +45,14 @@ namespace GoodNature.Controllers
 
                 if(user != null)
                 {
-                    categoryItemDetailsModels = await GetCategoryItemDetailsForUser(user.Id);
-                    groupedCategoryItemsModels = GetGroupedCategoryItemsModel(categoryItemDetailsModels);
+                    IEnumerable<CategoryItemDetailsModel> selectedCategoryItemDetailsModels = await _dataFunctions.GetCategoryItemDetailsForUser(user.Id, false);
+                    IEnumerable<CategoryItemDetailsModel> activeCategoryItemDetailsModels = await _dataFunctions.GetCategoryItemDetailsForUser(user.Id, true);
 
-                    categoryDetailsModel.GroupedCategoryItemsModels = groupedCategoryItemsModels;
+                    IEnumerable<GroupedCategoryItemsModel> groupedSelectedCategoryItemsModels = GetGroupedCategoryItemsModels(selectedCategoryItemDetailsModels);
+                    IEnumerable<GroupedCategoryItemsModel> groupedActiveCategoryItemsModels = GetGroupedCategoryItemsModels(activeCategoryItemDetailsModels);
+
+                    categoryDetailsModel.GroupedSelectedCategoryItemsModels = groupedSelectedCategoryItemsModels;
+                    categoryDetailsModel.GroupedActiveCategoryItemsModels = groupedActiveCategoryItemsModels;
                 }
             }
             else
@@ -61,30 +65,7 @@ namespace GoodNature.Controllers
             return View(categoryDetailsModel);
         }
 
-        private async Task<List<CategoryItemDetailsModel>> GetCategoryItemDetailsForUser(string userId)
-        {
-            return await (from catItem in _context.CategoryItem
-                          join category in _context.Category
-                          on catItem.CategoryId equals category.Id
-                          join content in _context.Content
-                          on catItem.Id equals content.CategoryItem.Id
-                          join userCat in _context.UserCategory
-                          on category.Id equals userCat.CategoryId
-                          join mediaType in _context.MediaType
-                          on catItem.MediaTypeId equals mediaType.Id
-                          where userCat.UserId == userId
-                          select new CategoryItemDetailsModel
-                          {
-                              CategoryId = category.Id,
-                              CategoryTitle = category.Title,
-                              CategoryItemId = catItem.Id,
-                              CategoryItemTitle = catItem.Title,
-                              CategoryItemDescription = catItem.Description,
-                              MediaImagePath = mediaType.ThumbnailImagePath,
-                          }).ToListAsync();
-        }
-
-        private IEnumerable<GroupedCategoryItemsModel> GetGroupedCategoryItemsModel(
+        private IEnumerable<GroupedCategoryItemsModel> GetGroupedCategoryItemsModels(
             IEnumerable<CategoryItemDetailsModel> categoryItemDetailsModels)
         {
             return from item in categoryItemDetailsModels
@@ -110,6 +91,7 @@ namespace GoodNature.Controllers
                               Title = category.Title,
                               Description = category.Description,
                               ThumbnailImagePath = category.ThumbnailImagePath,
+
                           }).Distinct().ToListAsync();
         }
 
