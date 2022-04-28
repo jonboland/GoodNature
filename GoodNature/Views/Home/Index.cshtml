@@ -6,7 +6,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-@if (Model.ActiveGroupedCategoryItemsModels != null || Model.SelectedGroupedCategoryItemsModels != null)
+@if (Model.GroupedActiveCategoryItemsModels != null || Model.GroupedSelectedCategoryItemsModels != null)
 {
     <div class="row mt-5">
         <div class="col-md-6">
@@ -17,15 +17,15 @@
         </div>
     </div>
 
-    @if (Model.ActiveGroupedCategoryItemsModels.Count() > 0 || Model.SelectedGroupedCategoryItemsModels.Count() > 0)
+    @if (Model.GroupedActiveCategoryItemsModels.Count() > 0 || Model.GroupedSelectedCategoryItemsModels.Count() > 0)
     {
-        @if (Model.ActiveGroupedCategoryItemsModels.Count() > 0)
+        @if (Model.GroupedActiveCategoryItemsModels.Count() > 0)
         {
             <h3>Your active projects</h3>
             <div class="row mt-3">
                 <div class="col-md-12">
 
-                    @foreach (var cat in Model.ActiveGroupedCategoryItemsModels)
+                    @foreach (var cat in Model.GroupedActiveCategoryItemsModels)
                     {
                         var items = cat.Items.ToList();
                         int itemCount = items.Count();
@@ -62,13 +62,13 @@
                 </div>
             </div>
         }
-        if (Model.SelectedGroupedCategoryItemsModels.Count() > 0)
+        if (Model.GroupedSelectedCategoryItemsModels.Count() > 0)
         {
             <h3>Your shortlisted projects</h3>
             <div class="row mt-3">
                 <div class="col-md-12">
 
-                    @foreach (var cat in Model.SelectedGroupedCategoryItemsModels)
+                    @foreach (var cat in Model.GroupedSelectedCategoryItemsModels)
                     {
                         var items = cat.Items.ToList();
                         int itemCount = items.Count();
