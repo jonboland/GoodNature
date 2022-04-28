@@ -24,13 +24,13 @@
     {
         if (active)
         {
-            <h3>Applied</h3>
+            <h3 class="mt-4">Applied</h3>
 
             <partial name="_GroupedCategoryItemsPartial" model="@Model.GroupedActiveCategoryItemsModels" />
         }
         if (selected)
         {
-            <h3>Shortlisted</h3>
+            <h3 class="mt-4">Shortlisted</h3>
 
             <partial name="_GroupedCategoryItemsPartial" model="@Model.GroupedSelectedCategoryItemsModels" />
         }       
