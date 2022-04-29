@@ -9,6 +9,12 @@ namespace GoodNature.Data
     {
         Task UpdateUserCategoryEntityAsync(List<UserCategory> userCategoryItemsToDelete, List<UserCategory> userCategoryItemsToAdd);
 
+        Task<List<Category>> GetCategoriesThatHaveContent();
+
+        Task<List<Category>> GetCategoriesForUser(string userId, bool active);
+
+        Task<List<UserCategory>> GetCategoriesToDeleteForUser(string userId);
+
         Task<List<CategoryItemDetailsModel>> GetCategoryItemDetailsForUser(string userId, bool active);
     }
 }

@@ -40,7 +40,46 @@ namespace GoodNature.Data
                 }
             }
         }
-        
+
+        public async Task<List<Category>> GetCategoriesThatHaveContent()
+        {
+            return await (from category in _context.Category
+                          join categoryItem in _context.CategoryItem
+                          on category.Id equals categoryItem.CategoryId
+                          join content in _context.Content
+                          on categoryItem.Id equals content.CategoryItem.Id
+                          select new Category
+                          {
+                              Id = category.Id,
+                              Title = category.Title,
+                              Description = category.Description,
+
+                          }).Distinct().ToListAsync();
+        }
+
+        public async Task<List<Category>> GetCategoriesForUser(string userId, bool active)
+        {
+            return await (from userCategory in _context.UserCategory
+                          where userCategory.UserId == userId && userCategory.Active == active
+                          select new Category
+                          {
+                              Id = userCategory.CategoryId,
+
+                          }).ToListAsync();
+        }
+
+        public async Task<List<UserCategory>> GetCategoriesToDeleteForUser(string userId)
+        {
+            return await (from userCat in _context.UserCategory
+                          where userCat.UserId == userId
+                          select new UserCategory
+                          {
+                              Id = userCat.Id,
+                              CategoryId = userCat.CategoryId,
+                              UserId = userId,
+
+                          }).ToListAsync();
+        }
         public async Task<List<CategoryItemDetailsModel>> GetCategoryItemDetailsForUser(string userId, bool active)
         {
             return await (from catItem in _context.CategoryItem
