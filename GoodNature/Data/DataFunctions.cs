@@ -53,6 +53,7 @@ namespace GoodNature.Data
                               Id = category.Id,
                               Title = category.Title,
                               Description = category.Description,
+                              ThumbnailImagePath = category.ThumbnailImagePath,
 
                           }).Distinct().ToListAsync();
         }
