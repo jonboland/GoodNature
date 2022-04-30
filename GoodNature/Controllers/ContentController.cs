@@ -9,23 +9,16 @@ namespace GoodNature.Controllers
 {
     public class ContentController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private IDataFunctions _dataFunctions;
 
-        public ContentController(ApplicationDbContext context)
+        public ContentController(IDataFunctions dataFunctions)
         {
-            _context = context;
+            _dataFunctions = dataFunctions;
         }
         
         public async Task<IActionResult> Index(int categoryItemId)
         {
-            Content content = await (from item in _context.Content
-                                     where item.CategoryItem.Id == categoryItemId
-                                     select new Content
-                                     {
-                                         Title = item.Title,
-                                         VideoLink = item.VideoLink,
-                                         HTMLContent = item.HTMLContent,
-                                     }).FirstOrDefaultAsync();
+            Content content = await _dataFunctions.GetPieceOfContent(categoryItemId);
 
             return View(content);
         }

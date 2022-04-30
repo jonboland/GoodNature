@@ -16,5 +16,7 @@ namespace GoodNature.Data
         Task<List<UserCategory>> GetCategoriesToDeleteForUser(string userId);
 
         Task<List<CategoryItemDetailsModel>> GetCategoryItemDetailsForUser(string userId, bool active);
+
+        Task<Content> GetPieceOfContent(int categoryItemId);
     }
 }

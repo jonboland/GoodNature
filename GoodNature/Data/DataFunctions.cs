@@ -103,5 +103,18 @@ namespace GoodNature.Data
 
                           }).ToListAsync();
         }
+
+        public async Task<Content> GetPieceOfContent(int categoryItemId)
+        {
+            return await (from item in _context.Content
+                          where item.CategoryItem.Id == categoryItemId
+                          select new Content
+                          {
+                              Title = item.Title,
+                              VideoLink = item.VideoLink,
+                              HTMLContent = item.HTMLContent,
+
+                          }).FirstOrDefaultAsync();
+        }           
     }
 }
