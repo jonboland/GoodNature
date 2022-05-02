@@ -41,6 +41,19 @@ namespace GoodNature.Data
             }
         }
 
+        public async Task RelateCategoryToUser(string userId, int categoryId)
+        {
+            var userCategory = new UserCategory
+            {
+                UserId = userId,
+                CategoryId = categoryId,
+            };
+
+            _context.UserCategory.Add(userCategory);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Category>> GetCategoriesThatHaveContent()
         {
             return await (from category in _context.Category
