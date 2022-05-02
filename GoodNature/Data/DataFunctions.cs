@@ -1,4 +1,5 @@
-﻿using GoodNature.Entities;
+﻿using GoodNature.Areas.Admin.Models;
+using GoodNature.Entities;
 using GoodNature.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -148,6 +149,43 @@ namespace GoodNature.Data
                               MediaTypeId = catItem.MediaTypeId,
                               CategoryId = categoryId,
                               ContentId = (subContent != null) ? subContent.Id : 0,
+
+                          }).ToListAsync();
+        }
+
+        public async Task<List<UserModel>> GetAllUsers()
+        {
+            return await (from user in _context.Users
+                          select new UserModel
+                          {
+                              Id = user.Id,
+                              UserName = user.UserName,
+                              FirstName = user.FirstName,
+                              LastName = user.LastName,
+
+                          }).ToListAsync();
+        }
+
+        public async Task<List<UserModel>> GetSavedSelectedUsersForCategory(int categoryId)
+        {
+            return await (from usersToCat in _context.UserCategory
+                          where usersToCat.CategoryId == categoryId
+                          select new UserModel
+                          {
+                              Id = usersToCat.UserId,
+
+                          }).ToListAsync();
+        }
+
+        public async Task<List<UserCategory>> GetUsersForCategoryToDelete(int categoryId)
+        {
+            return await (from userCat in _context.UserCategory
+                          where userCat.CategoryId == categoryId
+                          select new UserCategory
+                          {
+                              Id = userCat.Id,
+                              CategoryId = categoryId,
+                              UserId = userCat.UserId,
 
                           }).ToListAsync();
         }

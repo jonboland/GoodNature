@@ -1,4 +1,5 @@
-﻿using GoodNature.Entities;
+﻿using GoodNature.Areas.Admin.Models;
+using GoodNature.Entities;
 using GoodNature.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,5 +23,11 @@ namespace GoodNature.Data
         Task<Content> GetPieceOfContent(int categoryItemId);
 
         Task<List<CategoryItem>> GetCategoryItemList(int categoryId);
+
+        Task<List<UserModel>> GetAllUsers();
+
+        Task<List<UserModel>> GetSavedSelectedUsersForCategory(int categoryId);
+
+        Task<List<UserCategory>> GetUsersForCategoryToDelete(int categoryId);
     }
 }
