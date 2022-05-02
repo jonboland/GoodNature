@@ -43,8 +43,8 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoryItem = await _context.CategoryItem.FirstOrDefaultAsync(m => m.Id == id);
-            
+            CategoryItem categoryItem = await _context.CategoryItem.FindAsync(id);
+
             if (categoryItem == null)
             {
                 return NotFound();
@@ -95,7 +95,7 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoryItem = await _context.CategoryItem.FindAsync(id);
+            CategoryItem categoryItem = await _context.CategoryItem.FindAsync(id);
 
             if (categoryItem == null)
             {
@@ -154,8 +154,8 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoryItem = await _context.CategoryItem.FirstOrDefaultAsync(m => m.Id == id);
-            
+            CategoryItem categoryItem = await _context.CategoryItem.FindAsync(id);
+
             if (categoryItem == null)
             {
                 return NotFound();
@@ -169,7 +169,7 @@ namespace GoodNature.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categoryItem = await _context.CategoryItem.FindAsync(id);
+            CategoryItem categoryItem = await _context.CategoryItem.FindAsync(id);
 
             _context.CategoryItem.Remove(categoryItem);
             await _context.SaveChangesAsync();
