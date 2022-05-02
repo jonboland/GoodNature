@@ -62,8 +62,7 @@ namespace GoodNature.Controllers
             return View(categoryDetailsModel);
         }
 
-        private IEnumerable<GroupedCategoryItemsModel> GetGroupedCategoryItemsModels(
-            IEnumerable<CategoryItemDetailsModel> categoryItemDetailsModels)
+        private IEnumerable<GroupedCategoryItemsModel> GetGroupedCategoryItemsModels(IEnumerable<CategoryItemDetailsModel> categoryItemDetailsModels)
         {
             return from item in categoryItemDetailsModels
                    group item by item.CategoryId into g

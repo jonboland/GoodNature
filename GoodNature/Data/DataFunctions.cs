@@ -129,6 +129,27 @@ namespace GoodNature.Data
                               HTMLContent = item.HTMLContent,
 
                           }).FirstOrDefaultAsync();
-        }           
+        }
+        
+        public async Task<List<CategoryItem>> GetCategoryItemList(int categoryId)
+        {
+            return await (from catItem in _context.CategoryItem
+                          join contentItem in _context.Content
+                          on catItem.Id equals contentItem.CategoryItem.Id
+                          into gj
+                          from subContent in gj.DefaultIfEmpty()
+                          where catItem.CategoryId == categoryId
+                          select new CategoryItem
+                          {
+                              Id = catItem.Id,
+                              Title = catItem.Title,
+                              Description = catItem.Description,
+                              DateTimeItemReleased = catItem.DateTimeItemReleased,
+                              MediaTypeId = catItem.MediaTypeId,
+                              CategoryId = categoryId,
+                              ContentId = (subContent != null) ? subContent.Id : 0,
+
+                          }).ToListAsync();
+        }
     }
 }
