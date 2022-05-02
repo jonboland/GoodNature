@@ -62,7 +62,7 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var content = await _context.Content.SingleOrDefaultAsync(item => item.CategoryItem.Id == categoryItemId);
+            Content content = await _context.Content.SingleOrDefaultAsync(item => item.CategoryItem.Id == categoryItemId);
 
             content.CategoryId = categoryId;
             

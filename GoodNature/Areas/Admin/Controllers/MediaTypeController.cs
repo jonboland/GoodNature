@@ -36,8 +36,8 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var mediaType = await _context.MediaType.FirstOrDefaultAsync(m => m.Id == id);
-            
+            MediaType mediaType = await _context.MediaType.FindAsync(id);
+
             if (mediaType == null)
             {
                 return NotFound();
@@ -78,7 +78,7 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var mediaType = await _context.MediaType.FindAsync(id);
+            MediaType mediaType = await _context.MediaType.FindAsync(id);
 
             if (mediaType == null)
             {
@@ -133,7 +133,7 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var mediaType = await _context.MediaType.FirstOrDefaultAsync(m => m.Id == id);
+            MediaType mediaType = await _context.MediaType.FindAsync(id);
 
             if (mediaType == null)
             {
@@ -148,7 +148,7 @@ namespace GoodNature.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var mediaType = await _context.MediaType.FindAsync(id);
+            MediaType mediaType = await _context.MediaType.FindAsync(id);
 
             _context.MediaType.Remove(mediaType);
             await _context.SaveChangesAsync();

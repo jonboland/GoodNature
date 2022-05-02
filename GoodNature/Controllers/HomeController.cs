@@ -16,20 +16,17 @@ namespace GoodNature.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IDataFunctions _dataFunctions;
 
         public HomeController(
             ILogger<HomeController> logger,
-            ApplicationDbContext context,
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IDataFunctions dataFunctions)
         {
             _logger = logger;
-            _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
             _dataFunctions = dataFunctions;
@@ -57,7 +54,7 @@ namespace GoodNature.Controllers
             }
             else
             {
-                IEnumerable<Category> categoriesWithContent = await GetCategoriesWithContent();
+                IEnumerable<Category> categoriesWithContent = await _dataFunctions.GetCategoriesThatHaveContent();
 
                 categoryDetailsModel.Categories = categoriesWithContent;
             }
@@ -65,8 +62,7 @@ namespace GoodNature.Controllers
             return View(categoryDetailsModel);
         }
 
-        private IEnumerable<GroupedCategoryItemsModel> GetGroupedCategoryItemsModels(
-            IEnumerable<CategoryItemDetailsModel> categoryItemDetailsModels)
+        private IEnumerable<GroupedCategoryItemsModel> GetGroupedCategoryItemsModels(IEnumerable<CategoryItemDetailsModel> categoryItemDetailsModels)
         {
             return from item in categoryItemDetailsModels
                    group item by item.CategoryId into g
@@ -76,23 +72,6 @@ namespace GoodNature.Controllers
                        Title = g.Select(c => c.CategoryTitle).FirstOrDefault(),
                        Items = g,
                    };
-        }
-
-        private async Task<List<Category>> GetCategoriesWithContent()
-        {
-            return await (from category in _context.Category
-                          join categoryItem in _context.CategoryItem
-                          on category.Id equals categoryItem.CategoryId
-                          join content in _context.Content
-                          on categoryItem.Id equals content.CategoryItem.Id
-                          select new Category
-                          {
-                              Id = category.Id,
-                              Title = category.Title,
-                              Description = category.Description,
-                              ThumbnailImagePath = category.ThumbnailImagePath,
-
-                          }).Distinct().ToListAsync();
         }
 
         public IActionResult Privacy()

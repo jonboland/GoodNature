@@ -15,14 +15,11 @@ namespace GoodNature.Controllers
     [Authorize]
     public class CategoriesToUserController : Controller
     {
-        private ApplicationDbContext _context;
         private UserManager<ApplicationUser> _userManager;
         private IDataFunctions _dataFunctions;
 
-        public CategoriesToUserController(
-            ApplicationDbContext context, UserManager<ApplicationUser> userManager, IDataFunctions dataFunctions)
+        public CategoriesToUserController(UserManager<ApplicationUser> userManager, IDataFunctions dataFunctions)
         {
-            _context = context;
             _userManager = userManager;
             _dataFunctions = dataFunctions;
         }
@@ -33,12 +30,9 @@ namespace GoodNature.Controllers
 
             string userId = _userManager.GetUserAsync(User).Result?.Id;
 
-            categoriesToUserModel.Categories = await GetCategoriesThatHaveContent();
-
-            categoriesToUserModel.CategoriesSelected = await GetCategoriesCurrentlySavedForUser(userId);
-
-            categoriesToUserModel.CategoriesActive = await GetCategoriesCurrentlyActiveForUser(userId);
-
+            categoriesToUserModel.Categories = await _dataFunctions.GetCategoriesThatHaveContent();
+            categoriesToUserModel.CategoriesSelected = await _dataFunctions.GetCategoriesForUser(userId, false);
+            categoriesToUserModel.CategoriesActive = await _dataFunctions.GetCategoriesForUser(userId, true);
             categoriesToUserModel.UserId = userId;
 
             return View(categoriesToUserModel);
@@ -50,64 +44,12 @@ namespace GoodNature.Controllers
         {
             string userId = _userManager.GetUserAsync(User).Result?.Id;
 
-            List<UserCategory> usersCategoriesToDelete = await GetCategoriesToDeleteForUser(userId);
-
+            List<UserCategory> usersCategoriesToDelete = await _dataFunctions.GetCategoriesToDeleteForUser(userId);
             List<UserCategory> usersCategoriesToAdd = GetCategoriesToAddForUser(categoriesSelected, categoriesActive, userId);
 
             await _dataFunctions.UpdateUserCategoryEntityAsync(usersCategoriesToDelete, usersCategoriesToAdd);
 
             return RedirectToAction("Index", "Home");
-        }
-
-        private async Task<List<Category>> GetCategoriesThatHaveContent()
-        {
-            return await (from category in _context.Category
-                          join categoryItem in _context.CategoryItem
-                          on category.Id equals categoryItem.CategoryId
-                          join content in _context.Content
-                          on categoryItem.Id equals content.CategoryItem.Id
-                          select new Category
-                          {
-                              Id = category.Id,
-                              Title = category.Title,
-                              Description = category.Description,
-
-                          }).Distinct().ToListAsync();
-        }
-
-        private async Task<List<Category>> GetCategoriesCurrentlySavedForUser(string userId)
-        {
-            return await (from userCategory in _context.UserCategory
-                          where userCategory.UserId == userId
-                          select new Category
-                          {
-                              Id = userCategory.CategoryId,
-
-                          }).ToListAsync();           
-        }
-
-        private async Task<List<Category>> GetCategoriesCurrentlyActiveForUser(string userId)
-        {
-            return await (from userCategory in _context.UserCategory
-                          where userCategory.UserId == userId && userCategory.Active == true
-                          select new Category
-                          {
-                              Id = userCategory.CategoryId,
-
-                          }).ToListAsync();
-        }
-
-        private async Task<List<UserCategory>> GetCategoriesToDeleteForUser(string userId)
-        {
-            return await (from userCat in _context.UserCategory
-                          where userCat.UserId == userId
-                          select new UserCategory
-                          {
-                              Id = userCat.Id,
-                              CategoryId = userCat.CategoryId,
-                              UserId = userId,
-
-                          }).ToListAsync();
         }
 
         private List<UserCategory> GetCategoriesToAddForUser(string[] categoriesSelected, string[] categoriesActive, string userId)

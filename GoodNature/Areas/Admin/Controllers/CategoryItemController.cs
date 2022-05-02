@@ -17,32 +17,18 @@ namespace GoodNature.Areas.Admin.Controllers
     public class CategoryItemController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDataFunctions _dataFunctions;
 
-        public CategoryItemController(ApplicationDbContext context)
+        public CategoryItemController(ApplicationDbContext context, IDataFunctions dataFunctions)
         {
             _context = context;
+            _dataFunctions = dataFunctions;
         }
 
         // GET: Admin/CategoryItem
         public async Task<IActionResult> Index(int categoryId)
         {
-            List<CategoryItem> categoryItemList = await (from catItem in _context.CategoryItem
-                                                         join contentItem in _context.Content
-                                                         on catItem.Id equals contentItem.CategoryItem.Id
-                                                         into gj
-                                                         from subContent in gj.DefaultIfEmpty()
-                                                         where catItem.CategoryId == categoryId
-                                                         select new CategoryItem
-                                                         {
-                                                             Id = catItem.Id,
-                                                             Title = catItem.Title,
-                                                             Description = catItem.Description,
-                                                             DateTimeItemReleased = catItem.DateTimeItemReleased,
-                                                             MediaTypeId = catItem.MediaTypeId,
-                                                             CategoryId = categoryId,
-                                                             ContentId = (subContent != null) ? subContent.Id : 0,
-
-                                                         }).ToListAsync();
+            List<CategoryItem> categoryItemList = await _dataFunctions.GetCategoryItemList(categoryId);
 
             ViewBag.CategoryId = categoryId;
             
@@ -57,8 +43,8 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoryItem = await _context.CategoryItem.FirstOrDefaultAsync(m => m.Id == id);
-            
+            CategoryItem categoryItem = await _context.CategoryItem.FindAsync(id);
+
             if (categoryItem == null)
             {
                 return NotFound();
@@ -109,7 +95,7 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoryItem = await _context.CategoryItem.FindAsync(id);
+            CategoryItem categoryItem = await _context.CategoryItem.FindAsync(id);
 
             if (categoryItem == null)
             {
@@ -168,8 +154,8 @@ namespace GoodNature.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoryItem = await _context.CategoryItem.FirstOrDefaultAsync(m => m.Id == id);
-            
+            CategoryItem categoryItem = await _context.CategoryItem.FindAsync(id);
+
             if (categoryItem == null)
             {
                 return NotFound();
@@ -183,7 +169,7 @@ namespace GoodNature.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categoryItem = await _context.CategoryItem.FindAsync(id);
+            CategoryItem categoryItem = await _context.CategoryItem.FindAsync(id);
 
             _context.CategoryItem.Remove(categoryItem);
             await _context.SaveChangesAsync();

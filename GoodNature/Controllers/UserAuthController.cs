@@ -14,15 +14,18 @@ namespace GoodNature.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
+        private readonly IDataFunctions _dataFunctions;
 
         public UserAuthController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            IDataFunctions dataFunctions)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _dataFunctions = dataFunctions;
         }
 
         [AllowAnonymous]
@@ -101,7 +104,7 @@ namespace GoodNature.Controllers
 
                     if (registrationModel.CategoryId != 0)
                     {
-                        await RelateCategoryToUser(user.Id, registrationModel.CategoryId);
+                        await _dataFunctions.RelateCategoryToUser(user.Id, registrationModel.CategoryId);
                     }
 
                     return PartialView("_UserRegistrationPartial", registrationModel);               
@@ -124,19 +127,6 @@ namespace GoodNature.Controllers
             bool userNameExists = await _context.Users.AnyAsync(u => u.UserName.ToUpper() == userName.ToUpper());
 
             return userNameExists;
-        }
-
-        private async Task RelateCategoryToUser(string userId, int categoryId)
-        {
-            var userCategory = new UserCategory
-            {
-                UserId = userId,
-                CategoryId = categoryId,
-            };
-
-            _context.UserCategory.Add(userCategory);
-
-            await _context.SaveChangesAsync();
         }
 
         private void AddErrorsToModelState(IdentityResult result)
