@@ -45,11 +45,8 @@ namespace GoodNature.Controllers
                     IEnumerable<CategoryItemDetailsModel> selectedCategoryItemDetailsModels = await _dataFunctions.GetCategoryItemDetailsForUser(user.Id, false);
                     IEnumerable<CategoryItemDetailsModel> activeCategoryItemDetailsModels = await _dataFunctions.GetCategoryItemDetailsForUser(user.Id, true);
 
-                    IEnumerable<GroupedCategoryItemsModel> groupedSelectedCategoryItemsModels = GetGroupedCategoryItemsModels(selectedCategoryItemDetailsModels);
-                    IEnumerable<GroupedCategoryItemsModel> groupedActiveCategoryItemsModels = GetGroupedCategoryItemsModels(activeCategoryItemDetailsModels);
-
-                    categoryDetailsModel.GroupedSelectedCategoryItemsModels = groupedSelectedCategoryItemsModels;
-                    categoryDetailsModel.GroupedActiveCategoryItemsModels = groupedActiveCategoryItemsModels;
+                    categoryDetailsModel.GroupedSelectedCategoryItemsModels = GetGroupedCategoryItemsModels(selectedCategoryItemDetailsModels);
+                    categoryDetailsModel.GroupedActiveCategoryItemsModels = GetGroupedCategoryItemsModels(activeCategoryItemDetailsModels);
                 }
             }
             else
