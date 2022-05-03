@@ -5,6 +5,7 @@ for details on configuring this project to bundle and minify static web assets. 
     --dark-green: #194d33;
     --mid-green: #25744d;
     --lighter-green: #319b66;
+    --light-gold: #ffebb0;
 }
 
 .main-default {
@@ -125,7 +126,7 @@ body {
 }
 
 .hero-heading-text {
-    color: white;
+    color: #fff;
     font-size: 0.9rem;
 }
 
@@ -171,7 +172,6 @@ a:hover .card {
 /* Bootstrap button overrides
 -------------------------------------------------- */
 .btn-primary {
-    color: #fff;
     background-color: var(--dark-green);
     border-color: var(--dark-green);
 }
@@ -246,6 +246,10 @@ a:hover .card {
 
 .bg-lighter-green-005 {
     background-color: rgba(49, 155, 102, 0.05); /* --lighter-green 5% opacity */
+}
+
+.text-light-gold {
+    color: var(--light-gold);
 }
 
 /* Pointer
