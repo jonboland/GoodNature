@@ -166,10 +166,10 @@ namespace GoodNature.Data
                           }).ToListAsync();
         }
 
-        public async Task<List<UserModel>> GetSavedSelectedUsersForCategory(int categoryId)
+        public async Task<List<UserModel>> GetSavedUsersForCategory(int categoryId, bool active)
         {
             return await (from usersToCat in _context.UserCategory
-                          where usersToCat.CategoryId == categoryId
+                          where usersToCat.CategoryId == categoryId && usersToCat.Active == active
                           select new UserModel
                           {
                               Id = usersToCat.UserId,

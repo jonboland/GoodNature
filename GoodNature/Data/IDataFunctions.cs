@@ -26,7 +26,7 @@ namespace GoodNature.Data
 
         Task<List<UserModel>> GetAllUsers();
 
-        Task<List<UserModel>> GetSavedSelectedUsersForCategory(int categoryId);
+        Task<List<UserModel>> GetSavedUsersForCategory(int categoryId, bool active);
 
         Task<List<UserCategory>> GetUsersForCategoryToDelete(int categoryId);
     }
