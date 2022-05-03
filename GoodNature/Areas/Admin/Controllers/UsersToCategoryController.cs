@@ -33,13 +33,9 @@ namespace GoodNature.Areas.Admin.Controllers
         {
             UsersCategoryListModel usersCategoryListModel = new();
 
-            ICollection<UserModel> allUsers = await _dataFunctions.GetAllUsers();
-            ICollection<UserModel> selectedUsersForCategory = await _dataFunctions.GetSavedUsersForCategory(categoryId, false);
-            ICollection<UserModel> activeUsersForCategory = await _dataFunctions.GetSavedUsersForCategory(categoryId, true);
-
-            usersCategoryListModel.Users = allUsers;
-            usersCategoryListModel.UsersSelected = selectedUsersForCategory;
-            usersCategoryListModel.UsersActive = activeUsersForCategory;
+            usersCategoryListModel.Users = await _dataFunctions.GetAllUsers();
+            usersCategoryListModel.UsersSelected = await _dataFunctions.GetSavedUsersForCategory(categoryId, false);
+            usersCategoryListModel.UsersActive = await _dataFunctions.GetSavedUsersForCategory(categoryId, true);
 
             return PartialView("_UsersListViewPartial", usersCategoryListModel);
         }
