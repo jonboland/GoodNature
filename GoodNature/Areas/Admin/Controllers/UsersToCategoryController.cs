@@ -34,18 +34,19 @@ namespace GoodNature.Areas.Admin.Controllers
             UsersCategoryListModel usersCategoryListModel = new();
 
             ICollection<UserModel> allUsers = await _dataFunctions.GetAllUsers();
-            ICollection<UserModel> selectedUsersForCategory = await _dataFunctions.GetSavedSelectedUsersForCategory(categoryId);
+            ICollection<UserModel> selectedUsersForCategory = await _dataFunctions.GetSavedUsersForCategory(categoryId, false);
+            ICollection<UserModel> activeUsersForCategory = await _dataFunctions.GetSavedUsersForCategory(categoryId, true);
 
             usersCategoryListModel.Users = allUsers;
             usersCategoryListModel.UsersSelected = selectedUsersForCategory;
+            usersCategoryListModel.UsersActive = activeUsersForCategory;
 
             return PartialView("_UsersListViewPartial", usersCategoryListModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveSelectedUsers(
-            [Bind("CategoryId,UsersSelected")] UsersCategoryListModel usersCategoryListModel)
+        public async Task<IActionResult> SaveSelectedUsers([Bind("CategoryId,UsersSelected")] UsersCategoryListModel usersCategoryListModel)
         {
             List<UserCategory> usersSelectedForCategoryToAdd = null;
 
