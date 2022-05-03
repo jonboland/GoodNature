@@ -7,5 +7,6 @@ namespace GoodNature.Areas.Admin.Models
         public int CategoryId { get; set; }
         public ICollection<UserModel> Users { get; set; }
         public ICollection<UserModel> UsersSelected { get; set; }
+        public ICollection<UserModel> UsersActive { get; set; }
     }
 }
