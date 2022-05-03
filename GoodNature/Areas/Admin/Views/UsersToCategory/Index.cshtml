@@ -4,14 +4,18 @@
 
 @{
     ViewData["Title"] = "Index";
-}
+} 
 
-<h3 class="mt-4">Assign Users to Categories</h3>
-<hr />
+<div class="row mt-5">
+    <div class="col-md-10 mt-3">
+        <h3>Assign Users to Categories</h3>
+        <hr />
+    </div>
+</div>
 
 <form id="usersToCategory" asp-action="Index">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 mt-1">
             <div class="form-group">
                 <h4>Categories</h4>
                 <select id="CategoryId" name="CategoryId" class="form-control" asp-items="@Model.ConvertToSelectList(0)">
@@ -21,9 +25,9 @@
         </div>
     </div>
     <div id="alertPlaceholder"></div>
-    <hr />
     <div class="row">
         <div class="col-md-10">
+            <hr />
             <h4>Users</h4>
             <div class="form-group">
                 <div id="usersCheckList">
@@ -32,14 +36,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <hr />
-        </div>
-    </div>
 
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-10 mt-2">
             <div class="form-group text-right">
                 <button type="button" id="saveSelectedUsers" name="saveSelectedUsers" class="btn btn-primary text-light shadow-none">Save</button>
             </div>
