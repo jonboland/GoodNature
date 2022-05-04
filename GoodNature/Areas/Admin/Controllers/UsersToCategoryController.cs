@@ -1,4 +1,5 @@
 ﻿using GoodNature.Areas.Admin.Models;
+using GoodNature.Comparers;
 using GoodNature.Data;
 using GoodNature.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -42,18 +43,18 @@ namespace GoodNature.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveSelectedUsers([Bind("CategoryId,UsersSelected")] UsersCategoryListModel usersCategoryListModel)
+        public async Task<IActionResult> SaveSelectedUsers([Bind("CategoryId,UsersSelected,UsersActive")] UsersCategoryListModel usersCategoryListModel)
         {
-            List<UserCategory> usersSelectedForCategoryToAdd = null;
+            List<UserCategory> usersForCategoryToAdd = null;
 
-            if (usersCategoryListModel.UsersSelected != null)
+            if (usersCategoryListModel.UsersActive != null || usersCategoryListModel.UsersSelected != null)
             {
-                usersSelectedForCategoryToAdd = await GetUsersForCategoryToAdd(usersCategoryListModel);
+                usersForCategoryToAdd = await GetUsersForCategoryToAdd(usersCategoryListModel);
             }
 
             List<UserCategory> usersSelectedForCategoryToDelete = await _dataFunctions.GetUsersForCategoryToDelete(usersCategoryListModel.CategoryId);
 
-            await _dataFunctions.UpdateUserCategoryEntityAsync(usersSelectedForCategoryToDelete, usersSelectedForCategoryToAdd);
+            await _dataFunctions.UpdateUserCategoryEntityAsync(usersSelectedForCategoryToDelete, usersForCategoryToAdd);
 
             usersCategoryListModel.Users = await _dataFunctions.GetAllUsers();
 
@@ -62,14 +63,37 @@ namespace GoodNature.Areas.Admin.Controllers
 
         private async Task<List<UserCategory>> GetUsersForCategoryToAdd(UsersCategoryListModel usersCategoryListModel)
         {
-            List<UserCategory> usersForCategoryToAdd = (from userCat in usersCategoryListModel.UsersSelected
-                                                        select new UserCategory
-                                                        {
-                                                            CategoryId = usersCategoryListModel.CategoryId,
-                                                            UserId = userCat.Id,
-                                         
-                                                        }).ToList();
-            
+            List<UserCategory> usersActiveForCategoryToAdd = new();
+            List<UserCategory> usersSelectedForCategoryToAdd = new();
+
+            if (usersCategoryListModel.UsersActive != null)
+            {
+                usersActiveForCategoryToAdd = (from userCat in usersCategoryListModel.UsersActive
+                                               select new UserCategory
+                                               {
+                                                   CategoryId = usersCategoryListModel.CategoryId,
+                                                   UserId = userCat.Id,
+                                                   Active = true,
+
+                                               }).ToList();
+            }
+
+            if (usersCategoryListModel.UsersSelected != null)
+            {
+                usersSelectedForCategoryToAdd = (from userCat in usersCategoryListModel.UsersSelected
+                                                 select new UserCategory
+                                                 {
+                                                     CategoryId = usersCategoryListModel.CategoryId,
+                                                     UserId = userCat.Id,
+                                                     Active = false,
+
+                                                 }).ToList();
+            }
+
+            List<UserCategory> usersForCategoryToAdd = usersActiveForCategoryToAdd
+                .Union(usersSelectedForCategoryToAdd, new CompareUserCategories())
+                .ToList();
+
             return await Task.FromResult(usersForCategoryToAdd);
         }
     }
