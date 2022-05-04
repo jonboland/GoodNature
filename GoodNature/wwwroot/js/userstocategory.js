@@ -4,7 +4,7 @@
 
     $("select").on("change", function () {
 
-        var url = "/Admin/UsersToCategory/GetUsersForCategory?categoryId=" + this.value;
+        const url = "/Admin/UsersToCategory/GetUsersForCategory?categoryId=" + this.value;
 
         if (this.value != 0) {
             $.ajax({
@@ -35,29 +35,41 @@
 
     $("#saveSelectedUsers").click(function () {
 
-        var url = "/Admin/UsersToCategory/SaveSelectedUsers";
-
-        var categoryId = $("#CategoryId").val();
-
-        var antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
-
-        var usersSelected = [];
+        const url = "/Admin/UsersToCategory/SaveSelectedUsers";
+        const categoryId = $("#CategoryId").val();
+        const antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
+        const usersSelected = [];
+        const usersActive = [];
 
         DisableControls(true);
 
-        $("input[type=checkbox]:checked").each(function () {
-            var userModel = {
+        const $selectedBoxes = $('input[name=usersSelected]:checked');
+
+        $selectedBoxes.each(function () {
+            const userModel = {
                 Id: $(this).attr("value")
             };
 
             usersSelected.push(userModel);
         });
 
-        var usersSelectedForCategory = {
+        const $activeBoxes = $('input[name=usersActive]:checked');
+
+        $activeBoxes.each(function () {
+            const userModel = {
+                Id: $(this).attr("value")
+            };
+
+            usersActive.push(userModel);
+        });
+
+        const usersSelectedForCategory = {
             __RequestVerificationToken: antiForgeryToken,
             CategoryId: categoryId,
-            UsersSelected: usersSelected
+            UsersSelected: usersSelected,
+            UsersActive: usersActive,
         };
+
         $.ajax({
             type: "POST",
             url: url,
