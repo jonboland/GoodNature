@@ -49,7 +49,7 @@ namespace GoodNature.Areas.Admin.Controllers
 
             if (usersCategoryListModel.UsersActive != null || usersCategoryListModel.UsersSelected != null)
             {
-                usersForCategoryToAdd = await GetUsersForCategoryToAdd(usersCategoryListModel);
+                usersForCategoryToAdd = GetUsersForCategoryToAdd(usersCategoryListModel);
             }
 
             List<UserCategory> usersSelectedForCategoryToDelete = await _dataFunctions.GetUsersForCategoryToDelete(usersCategoryListModel.CategoryId);
@@ -61,7 +61,7 @@ namespace GoodNature.Areas.Admin.Controllers
             return PartialView("_UsersListViewPartial", usersCategoryListModel);
         }
 
-        private async Task<List<UserCategory>> GetUsersForCategoryToAdd(UsersCategoryListModel usersCategoryListModel)
+        private List<UserCategory> GetUsersForCategoryToAdd(UsersCategoryListModel usersCategoryListModel)
         {
             List<UserCategory> usersActiveForCategoryToAdd = new();
             List<UserCategory> usersSelectedForCategoryToAdd = new();
@@ -90,11 +90,7 @@ namespace GoodNature.Areas.Admin.Controllers
                                                  }).ToList();
             }
 
-            List<UserCategory> usersForCategoryToAdd = usersActiveForCategoryToAdd
-                .Union(usersSelectedForCategoryToAdd, new CompareUserCategories())
-                .ToList();
-
-            return await Task.FromResult(usersForCategoryToAdd);
+            return usersActiveForCategoryToAdd.Union(usersSelectedForCategoryToAdd, new CompareUserCategories()).ToList();
         }
     }
 }
