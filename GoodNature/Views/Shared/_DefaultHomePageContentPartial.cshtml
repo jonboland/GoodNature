@@ -20,19 +20,8 @@
 <!--Projects Section-->
 
 <div class="section">
-    <h4 id="projects" class="section-header">Conservation Projects</h4>  
-    @{
-        const int itemsPerRow = 3;
-        
-        int count = Model.Count() / itemsPerRow;
-        var catList = new List<Category>();
-    }
-    @for (int i = 0; i <= count; i++)
-    {      
-        catList = Model.Skip(i * itemsPerRow).Take(itemsPerRow).ToList();
-
-        <partial name="_DisplayCardRowPartial" model="catList" />
-    }
+    <h4 id="projects" class="section-header">Conservation Projects</h4>   
+    <partial name="_DisplayCardsPartial" model="@Model" />
 </div>
 
 <hr class="section-divider" />
