@@ -252,6 +252,12 @@ a:hover .card {
     color: var(--light-gold);
 }
 
+/* Custom line height
+-------------------------------------------------- */
+.lh-1 {
+    line-height: 1;
+}
+
 /* Pointer
 -------------------------------------------------- */
 .pointer {
