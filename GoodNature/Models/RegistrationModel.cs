@@ -36,11 +36,11 @@ namespace GoodNature.Models
         public string Address2 { get; set; }
         
         [Required]
-        [RegularExpression(Constants.PostcodeRegex)]
+        [RegularExpression(Constants.PostcodeRegex, ErrorMessage = Constants.PostcodeErrorMessage)]
         public string Postcode { get; set; }
         
         [Required]
-        [RegularExpression(Constants.PhoneNumberRegex)]
+        [RegularExpression(Constants.PhoneNumberRegex, ErrorMessage = Constants.PhoneNumberErrorMessage)]
         [Display(Name = Constants.PhoneNumberDisplayName)]
         public string PhoneNumber { get; set; }
         

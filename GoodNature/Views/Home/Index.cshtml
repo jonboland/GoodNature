@@ -1,5 +1,4 @@
 ﻿@model CategoryDetailsModel
-
 @using GoodNature.Data
 
 @{
@@ -9,10 +8,10 @@
 @if (Model.GroupedActiveCategoryItemsModels != null || Model.GroupedSelectedCategoryItemsModels != null)
 {
     <div class="row mt-5">
-        <div class="col-md-6">
+        <div class="col-8">
             <h2>Your Conservation Projects</h2>
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-4 text-right">
             <a asp-controller="CategoriesToUser" asp-action="Index" class="btn btn-primary text-light shadow-none">Choose Projects</a>
         </div>
     </div>
@@ -24,13 +23,13 @@
     {
         if (active)
         {
-            <h3 class="mt-4">Applied</h3>
+            <h3 class="mt-5 lh-1">Applied</h3>
 
             <partial name="_GroupedCategoryItemsPartial" model="@Model.GroupedActiveCategoryItemsModels" />
         }
         if (selected)
         {
-            <h3 class="mt-4">Shortlisted</h3>
+            <h3 class="mt-5 lh-1">Shortlisted</h3>
 
             <partial name="_GroupedCategoryItemsPartial" model="@Model.GroupedSelectedCategoryItemsModels" />
         }       
