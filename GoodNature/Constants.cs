@@ -31,6 +31,9 @@
         public const string PostcodeRegex = "^[a-zA-Z]{1,2}[0-9][0-9A-Za-z]{0,1} {0,1}[0-9][A-Za-z]{2}$";
         public const string PhoneNumberRegex = @"(\s*\(?0\d{4}\)?\s*\d{6}\s*)|(\s*\(?0\d{3}\)?\s*\d{3}\s*\d{4}\s*)";
 
+        public const string PostcodeErrorMessage = "Please enter a valid postcode.";
+        public const string PhoneNumberErrorMessage = "Please enter a valid mobile or landline number.";
+
         // UserAuthController
         public const string LoginFailedErrorMessage = "Oops! Login details are incorrect";
     }
