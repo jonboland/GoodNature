@@ -17,12 +17,12 @@ namespace GoodNature.Areas.Admin.Controllers
     public class UsersToCategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IDataFunctions _dataFunctions;
+        private readonly ICustomDataMethods _customDataMethods;
 
-        public UsersToCategoryController(ApplicationDbContext context, IDataFunctions dataFunctions)
+        public UsersToCategoryController(ApplicationDbContext context, ICustomDataMethods customDataMethods)
         {
             _context = context;
-            _dataFunctions = dataFunctions;
+            _customDataMethods = customDataMethods;
         }
 
         public async Task<IActionResult> Index()
@@ -34,9 +34,9 @@ namespace GoodNature.Areas.Admin.Controllers
         {
             UsersCategoryListModel usersCategoryListModel = new();
 
-            usersCategoryListModel.Users = await _dataFunctions.GetAllUsers();
-            usersCategoryListModel.UsersSelected = await _dataFunctions.GetSavedUsersForCategory(categoryId, false);
-            usersCategoryListModel.UsersActive = await _dataFunctions.GetSavedUsersForCategory(categoryId, true);
+            usersCategoryListModel.Users = await _customDataMethods.GetAllUsers();
+            usersCategoryListModel.UsersSelected = await _customDataMethods.GetSavedUsersForCategory(categoryId, false);
+            usersCategoryListModel.UsersActive = await _customDataMethods.GetSavedUsersForCategory(categoryId, true);
 
             return PartialView("_UsersListViewPartial", usersCategoryListModel);
         }
@@ -52,11 +52,11 @@ namespace GoodNature.Areas.Admin.Controllers
                 usersForCategoryToAdd = GetUsersForCategoryToAdd(usersCategoryListModel);
             }
 
-            List<UserCategory> usersSelectedForCategoryToDelete = await _dataFunctions.GetUsersForCategoryToDelete(usersCategoryListModel.CategoryId);
+            List<UserCategory> usersSelectedForCategoryToDelete = await _customDataMethods.GetUsersForCategoryToDelete(usersCategoryListModel.CategoryId);
 
-            await _dataFunctions.UpdateUserCategoryEntityAsync(usersSelectedForCategoryToDelete, usersForCategoryToAdd);
+            await _customDataMethods.UpdateUserCategoryEntityAsync(usersSelectedForCategoryToDelete, usersForCategoryToAdd);
 
-            usersCategoryListModel.Users = await _dataFunctions.GetAllUsers();
+            usersCategoryListModel.Users = await _customDataMethods.GetAllUsers();
 
             return PartialView("_UsersListViewPartial", usersCategoryListModel);
         }

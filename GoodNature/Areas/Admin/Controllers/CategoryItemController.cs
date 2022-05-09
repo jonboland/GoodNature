@@ -17,18 +17,18 @@ namespace GoodNature.Areas.Admin.Controllers
     public class CategoryItemController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IDataFunctions _dataFunctions;
+        private readonly ICustomDataMethods _customDataMethods;
 
-        public CategoryItemController(ApplicationDbContext context, IDataFunctions dataFunctions)
+        public CategoryItemController(ApplicationDbContext context, ICustomDataMethods customDataMethods)
         {
             _context = context;
-            _dataFunctions = dataFunctions;
+            _customDataMethods = customDataMethods;
         }
 
         // GET: Admin/CategoryItem
         public async Task<IActionResult> Index(int categoryId)
         {
-            List<CategoryItem> categoryItemList = await _dataFunctions.GetCategoryItemList(categoryId);
+            List<CategoryItem> categoryItemList = await _customDataMethods.GetCategoryItemList(categoryId);
 
             ViewBag.CategoryId = categoryId;
             

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoodNature.Data
 {
-    public interface IDataFunctions
+    public interface ICustomDataMethods
     {
         Task UpdateUserCategoryEntityAsync(List<UserCategory> userCategoryItemsToDelete, List<UserCategory> userCategoryItemsToAdd);
 

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace GoodNature.Data
 {
-    public class DataFunctions : IDataFunctions
+    public class CustomDataMethods : ICustomDataMethods
     {
         private readonly ApplicationDbContext _context;
 
-        public DataFunctions(ApplicationDbContext context)
+        public CustomDataMethods(ApplicationDbContext context)
         {
             _context = context;
         }

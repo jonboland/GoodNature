@@ -9,16 +9,16 @@ namespace GoodNature.Controllers
 {
     public class ContentController : Controller
     {
-        private IDataFunctions _dataFunctions;
+        private ICustomDataMethods _customDataMethods;
 
-        public ContentController(IDataFunctions dataFunctions)
+        public ContentController(ICustomDataMethods customDataMethods)
         {
-            _dataFunctions = dataFunctions;
+            _customDataMethods = customDataMethods;
         }
         
         public async Task<IActionResult> Index(int categoryItemId)
         {
-            Content content = await _dataFunctions.GetPieceOfContent(categoryItemId);
+            Content content = await _customDataMethods.GetPieceOfContent(categoryItemId);
 
             return View(content);
         }
