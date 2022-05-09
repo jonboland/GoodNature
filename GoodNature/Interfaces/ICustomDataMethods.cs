@@ -20,8 +20,6 @@ namespace GoodNature.Data
 
         Task<List<CategoryItemDetailsModel>> GetCategoryItemDetailsForUser(string userId, bool active);
 
-        Task<Content> GetPieceOfContent(int categoryItemId);
-
         Task<List<CategoryItem>> GetCategoryItemList(int categoryId);
 
         Task<List<UserModel>> GetAllUsers();
