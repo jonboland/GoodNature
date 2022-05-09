@@ -18,18 +18,18 @@ namespace GoodNature.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IDataFunctions _dataFunctions;
+        private readonly ICustomDataMethods _customDataMethods;
 
         public HomeController(
             ILogger<HomeController> logger,
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
-            IDataFunctions dataFunctions)
+            ICustomDataMethods customDataMethods)
         {
             _logger = logger;
             _signInManager = signInManager;
             _userManager = userManager;
-            _dataFunctions = dataFunctions;
+            _customDataMethods = customDataMethods;
         }
 
         public async Task<IActionResult> Index()
@@ -42,8 +42,8 @@ namespace GoodNature.Controllers
 
                 if(user != null)
                 {
-                    IEnumerable<CategoryItemDetailsModel> selectedCategoryItemDetailsModels = await _dataFunctions.GetCategoryItemDetailsForUser(user.Id, false);
-                    IEnumerable<CategoryItemDetailsModel> activeCategoryItemDetailsModels = await _dataFunctions.GetCategoryItemDetailsForUser(user.Id, true);
+                    IEnumerable<CategoryItemDetailsModel> selectedCategoryItemDetailsModels = await _customDataMethods.GetCategoryItemDetailsForUser(user.Id, false);
+                    IEnumerable<CategoryItemDetailsModel> activeCategoryItemDetailsModels = await _customDataMethods.GetCategoryItemDetailsForUser(user.Id, true);
 
                     categoryDetailsModel.GroupedSelectedCategoryItemsModels = GetGroupedCategoryItemsModels(selectedCategoryItemDetailsModels);
                     categoryDetailsModel.GroupedActiveCategoryItemsModels = GetGroupedCategoryItemsModels(activeCategoryItemDetailsModels);
@@ -51,7 +51,7 @@ namespace GoodNature.Controllers
             }
             else
             {
-                IEnumerable<Category> categoriesWithContent = await _dataFunctions.GetCategoriesThatHaveContent();
+                IEnumerable<Category> categoriesWithContent = await _customDataMethods.GetCategoriesThatHaveContent();
 
                 categoryDetailsModel.Categories = categoriesWithContent;
             }

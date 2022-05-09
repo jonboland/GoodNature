@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace GoodNature.Data
 {
-    public class DataFunctions : IDataFunctions
+    public class CustomDataMethods : ICustomDataMethods
     {
         private readonly ApplicationDbContext _context;
 
-        public DataFunctions(ApplicationDbContext context)
+        public CustomDataMethods(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -117,19 +117,6 @@ namespace GoodNature.Data
                               MediaImagePath = mediaType.ThumbnailImagePath,
 
                           }).ToListAsync();
-        }
-
-        public async Task<Content> GetPieceOfContent(int categoryItemId)
-        {
-            return await (from item in _context.Content
-                          where item.CategoryItem.Id == categoryItemId
-                          select new Content
-                          {
-                              Title = item.Title,
-                              VideoLink = item.VideoLink,
-                              HTMLContent = item.HTMLContent,
-
-                          }).FirstOrDefaultAsync();
         }
         
         public async Task<List<CategoryItem>> GetCategoryItemList(int categoryId)

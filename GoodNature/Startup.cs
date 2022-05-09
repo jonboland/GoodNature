@@ -37,7 +37,7 @@ namespace GoodNature
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
 
-            services.AddScoped<IDataFunctions, DataFunctions>();
+            services.AddScoped<ICustomDataMethods, CustomDataMethods>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

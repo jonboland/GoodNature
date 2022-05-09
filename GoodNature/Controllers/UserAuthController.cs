@@ -14,18 +14,18 @@ namespace GoodNature.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
-        private readonly IDataFunctions _dataFunctions;
+        private readonly ICustomDataMethods _customDataMethods;
 
         public UserAuthController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext context,
-            IDataFunctions dataFunctions)
+            ICustomDataMethods customDataMethods)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
-            _dataFunctions = dataFunctions;
+            _customDataMethods = customDataMethods;
         }
 
         [AllowAnonymous]
@@ -104,7 +104,7 @@ namespace GoodNature.Controllers
 
                     if (registrationModel.CategoryId != 0)
                     {
-                        await _dataFunctions.RelateCategoryToUser(user.Id, registrationModel.CategoryId);
+                        await _customDataMethods.RelateCategoryToUser(user.Id, registrationModel.CategoryId);
                     }
 
                     return PartialView("_UserRegistrationPartial", registrationModel);               

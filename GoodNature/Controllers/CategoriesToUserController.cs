@@ -16,12 +16,12 @@ namespace GoodNature.Controllers
     public class CategoriesToUserController : Controller
     {
         private UserManager<ApplicationUser> _userManager;
-        private IDataFunctions _dataFunctions;
+        private ICustomDataMethods _customDataMethods;
 
-        public CategoriesToUserController(UserManager<ApplicationUser> userManager, IDataFunctions dataFunctions)
+        public CategoriesToUserController(UserManager<ApplicationUser> userManager, ICustomDataMethods customDataMethods)
         {
             _userManager = userManager;
-            _dataFunctions = dataFunctions;
+            _customDataMethods = customDataMethods;
         }
 
         public async Task<IActionResult> Index()
@@ -30,9 +30,9 @@ namespace GoodNature.Controllers
 
             string userId = _userManager.GetUserAsync(User).Result?.Id;
 
-            categoriesToUserModel.Categories = await _dataFunctions.GetCategoriesThatHaveContent();
-            categoriesToUserModel.CategoriesSelected = await _dataFunctions.GetCategoriesForUser(userId, false);
-            categoriesToUserModel.CategoriesActive = await _dataFunctions.GetCategoriesForUser(userId, true);
+            categoriesToUserModel.Categories = await _customDataMethods.GetCategoriesThatHaveContent();
+            categoriesToUserModel.CategoriesSelected = await _customDataMethods.GetCategoriesForUser(userId, false);
+            categoriesToUserModel.CategoriesActive = await _customDataMethods.GetCategoriesForUser(userId, true);
             categoriesToUserModel.UserId = userId;
 
             return View(categoriesToUserModel);
@@ -44,10 +44,10 @@ namespace GoodNature.Controllers
         {
             string userId = _userManager.GetUserAsync(User).Result?.Id;
 
-            List<UserCategory> usersCategoriesToDelete = await _dataFunctions.GetCategoriesToDeleteForUser(userId);
+            List<UserCategory> usersCategoriesToDelete = await _customDataMethods.GetCategoriesToDeleteForUser(userId);
             List<UserCategory> usersCategoriesToAdd = GetCategoriesToAddForUser(categoriesSelected, categoriesActive, userId);
 
-            await _dataFunctions.UpdateUserCategoryEntityAsync(usersCategoriesToDelete, usersCategoriesToAdd);
+            await _customDataMethods.UpdateUserCategoryEntityAsync(usersCategoriesToDelete, usersCategoriesToAdd);
 
             return RedirectToAction("Index", "Home");
         }
