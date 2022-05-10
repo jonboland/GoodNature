@@ -9,7 +9,7 @@ namespace GoodNature.Controllers
 {
     public class ContentController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public ContentController(ApplicationDbContext context)
         {

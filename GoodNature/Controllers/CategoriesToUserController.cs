@@ -15,8 +15,8 @@ namespace GoodNature.Controllers
     [Authorize]
     public class CategoriesToUserController : Controller
     {
-        private UserManager<ApplicationUser> _userManager;
-        private ICustomDataMethods _customDataMethods;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ICustomDataMethods _customDataMethods;
 
         public CategoriesToUserController(UserManager<ApplicationUser> userManager, ICustomDataMethods customDataMethods)
         {
