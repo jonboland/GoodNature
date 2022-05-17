@@ -63,7 +63,7 @@ namespace GoodNature.Controllers
         {
             await _signInManager.SignOutAsync();
 
-            if(returnURL != null)
+            if (returnURL != null)
             {
                 return LocalRedirect(returnURL);
             }
