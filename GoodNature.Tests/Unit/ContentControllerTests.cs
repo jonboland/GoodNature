@@ -16,13 +16,15 @@ namespace GoodNature.Tests.Unit
         public async void Index_ReturnsViewResultWithContentRelatedToCategoryItem()
         {
             // Arrange
+            var item1 = "Bumblebee Item";
+            var item2 = "Ant Item";
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("ContentController_Index")
                 .Options;
             using var context = new ApplicationDbContext(options);
             context.Content.AddRange(
-                new Content { CategoryItem = new CategoryItem { Id = 1, Title = "Bumblebee Item" } },
-                new Content { CategoryItem = new CategoryItem { Id = 2, Title = "Ant Item" } });
+                new Content { CategoryItem = new CategoryItem { Id = 1, Title = item1 } },
+                new Content { CategoryItem = new CategoryItem { Id = 2, Title = item2 } });
             context.SaveChanges();
             var contentController = new ContentController(context);
 
@@ -32,7 +34,7 @@ namespace GoodNature.Tests.Unit
             //Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<Content>(viewResult.ViewData.Model);
-            model.CategoryItem.Title.Should().Be("Ant Item");
+            model.CategoryItem.Title.Should().Be(item2);
         }
     }
 }

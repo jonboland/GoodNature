@@ -31,6 +31,7 @@ namespace GoodNature.Tests.Unit
         public async void Login_ReturnsPartialViewWithLoginInvalid_WhenModelStateInvalid()
         {
             // Arrange
+            var expectedViewName = "_UserLoginPartial";
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase("UserAuthController_Login")
             .Options;
@@ -45,7 +46,7 @@ namespace GoodNature.Tests.Unit
             // Assert
             var partialViewResult = Assert.IsType<PartialViewResult>(result);
             var model = Assert.IsAssignableFrom<LoginModel>(partialViewResult.ViewData.Model);
-            Assert.Equal("_UserLoginPartial", partialViewResult.ViewName);
+            Assert.Equal(expectedViewName, partialViewResult.ViewName);
             Assert.Equal("true", model.LoginInvalid);
         }
 
@@ -91,9 +92,8 @@ namespace GoodNature.Tests.Unit
 
             // Assert
             var partialViewResult = Assert.IsType<PartialViewResult>(result);
-            Assert.Equal(
-                Constants.LoginFailedErrorMessage,
-                partialViewResult.ViewData.ModelState[string.Empty].Errors.First().ErrorMessage);
+            var errorMessage = partialViewResult.ViewData.ModelState[string.Empty].Errors.First().ErrorMessage;
+            Assert.Equal(Constants.LoginFailedErrorMessage, errorMessage);
         }
 
         [Theory]
@@ -106,16 +106,17 @@ namespace GoodNature.Tests.Unit
         public async void UserNameExists_ReturnsCorrectBoolValue(string userName, bool expected)
         {
             // Arrange
+            var existingUserName = "test@test.com";
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("UserAuthController_UserNameExists")
                 .Options;
             using var context = new ApplicationDbContext(options);
-            context.Users.Add(new ApplicationUser { UserName = "test@test.com" });
+            context.Users.Add(new ApplicationUser { UserName = existingUserName });
             context.SaveChanges();
             var userAuthController = new UserAuthController(_userManager, _signInManager, context, _customDataMethods);
 
             // Act
-            var actual = await userAuthController.UserNameExists(userName);
+            bool actual = await userAuthController.UserNameExists(userName);
 
             // Assert
             Assert.Equal(expected, actual);

@@ -33,7 +33,6 @@ namespace GoodNature.Tests.Unit
         [Fact]
         public async void Index_CallsMethodsAndReturnsViewResult()
         {
-
             // Arrange
             A.CallTo(() => _userManager.GetUserAsync(A<ClaimsPrincipal>.Ignored)).Returns(new ApplicationUser());
             A.CallTo(() => _customDataMethods.GetCategoriesThatHaveContent()).Returns(new List<Category>());
@@ -87,6 +86,8 @@ namespace GoodNature.Tests.Unit
         public async void IndexPost_RedirectsToHomePage()
         {
             // Arrange
+            var expectedActionName = "Index";
+            var expectedControllerName = "Home";
             string[] categoriesSelected = { "1" };
             string[] categoriesActive = { "2" };
             A.CallTo(() => _userManager.GetUserAsync(
@@ -101,8 +102,8 @@ namespace GoodNature.Tests.Unit
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("Index", redirectToActionResult.ActionName);
-            Assert.Equal("Home", redirectToActionResult.ControllerName);
+            Assert.Equal(expectedActionName, redirectToActionResult.ActionName);
+            Assert.Equal(expectedControllerName, redirectToActionResult.ControllerName);
         }
     }
 }
