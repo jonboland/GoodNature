@@ -33,7 +33,7 @@ namespace GoodNature.Tests.ControllerTests
         }
 
         [Fact]
-        public async void HomeController_Index_SignedOutUser_ShouldCallMethodsOnceAndReturnViewResult()
+        public async void Index_CallsMethodsAndReturnsViewResult_WhenUserSignedOut()
         {
             // Arrange
             A.CallTo(() => _signInManager.IsSignedIn(A<ClaimsPrincipal>.Ignored)).Returns(false);
@@ -43,13 +43,13 @@ namespace GoodNature.Tests.ControllerTests
             var result = await _homeController.Index();
 
             // Assert
-            Assert.IsType<ViewResult>(result);
             A.CallTo(() => _signInManager.IsSignedIn(A<ClaimsPrincipal>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => _customDataMethods.GetCategoriesThatHaveContent()).MustHaveHappenedOnceExactly();          
+            A.CallTo(() => _customDataMethods.GetCategoriesThatHaveContent()).MustHaveHappenedOnceExactly();
+            Assert.IsType<ViewResult>(result);
         }
 
         [Fact]
-        public async void HomeController_Index_SignedInUser_ViewResultShouldContainGroupedCategoryItemModels()
+        public async void Index_ViewResultContainsGroupedCategoryItemModels_WhenUserSignedIn()
         {
             // Arrange
             string t1 = "Protect the Bumblebee";
