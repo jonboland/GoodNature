@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace GoodNature.Tests.ControllerTests
+namespace GoodNature.Tests.Unit
 {
     public class UserAuthControllerTests
     {
@@ -69,7 +69,7 @@ namespace GoodNature.Tests.ControllerTests
             // Assert
             var partialViewResult = Assert.IsType<PartialViewResult>(result);
             var model = Assert.IsAssignableFrom<LoginModel>(partialViewResult.ViewData.Model);
-            Assert.Equal(String.Empty, model.LoginInvalid);
+            Assert.Equal(string.Empty, model.LoginInvalid);
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace GoodNature.Tests.ControllerTests
             var partialViewResult = Assert.IsType<PartialViewResult>(result);
             Assert.Equal(
                 Constants.LoginFailedErrorMessage,
-                partialViewResult.ViewData.ModelState[String.Empty].Errors.First().ErrorMessage);
+                partialViewResult.ViewData.ModelState[string.Empty].Errors.First().ErrorMessage);
         }
 
         [Theory]

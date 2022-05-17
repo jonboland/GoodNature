@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Xunit;
 
-namespace GoodNature.Tests.ControllerTests
+namespace GoodNature.Tests.Unit
 {
     public class ContentControllerTests
     {

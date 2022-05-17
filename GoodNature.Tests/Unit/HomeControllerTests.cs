@@ -13,7 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using Xunit;
 
-namespace GoodNature.Tests.ControllerTests
+namespace GoodNature.Tests.Unit
 {
     public class HomeControllerTests
     {

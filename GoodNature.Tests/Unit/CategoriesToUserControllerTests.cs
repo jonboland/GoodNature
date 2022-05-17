@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace GoodNature.Tests.ControllerTests
+namespace GoodNature.Tests.Unit
 {
     public class CategoriesToUserControllerTests
     {
@@ -60,12 +60,12 @@ namespace GoodNature.Tests.ControllerTests
             A.CallTo(() => _userManager.GetUserAsync(A<ClaimsPrincipal>.Ignored))
                 .Returns(new ApplicationUser() { Id = Guid.NewGuid().ToString() });
             A.CallTo(() => _customDataMethods.GetCategoriesThatHaveContent())
-                .Returns(new List<Category> 
-                { 
+                .Returns(new List<Category>
+                {
                     new Category() { Title = t1 },
                     new Category() { Title = t2 },
                     new Category() { Title = t3 },
-                }); 
+                });
             A.CallTo(() => _customDataMethods.GetCategoriesForUser(A<string>.Ignored, false))
                 .Returns(new List<Category> { new Category() { Title = t1 } });
             A.CallTo(() => _customDataMethods.GetCategoriesForUser(A<string>.Ignored, true))
