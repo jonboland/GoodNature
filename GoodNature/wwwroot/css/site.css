@@ -108,6 +108,13 @@ body {
     width: 100%;
 }
 
+/* Logo styles
+-------------------------------------------------- */
+
+.logo {
+    height: 1.5rem;
+}
+
 /* Hero styles
 -------------------------------------------------- */
 .hero-heading {
@@ -136,21 +143,6 @@ body {
     margin-top: 2px;
 }
 
-.section-divider {
-    height: 1px;
-    background-color: var(--dark-green);
-    margin-top: 40px;
-}
-
-.section-header {
-    margin-top: 40px;
-}
-
-a:hover .card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
-    transition: box-shadow 0.3s ease-in-out;
-}
-
 @media screen and (min-width: 768px) {
     .hero-heading {
         width: 600px;
@@ -167,6 +159,29 @@ a:hover .card {
         font-size: 1rem;
         margin-top: 5px;
     }
+}
+
+/* Section styles
+-------------------------------------------------- */
+
+.section-divider {
+    height: 3px;
+    background-color: var(--mid-green);
+    border-top: 0px;
+    margin-top: 25px;
+    margin-bottom: 0px;
+}
+
+.section-header {
+    margin-top: 40px;
+}
+
+/* Card styles
+-------------------------------------------------- */
+
+a:hover .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 /* Bootstrap button overrides
@@ -201,7 +216,6 @@ a:hover .card {
     border-color: var(--lighter-green);
 }
 
-
 /* Bootstrap form control overrides
 -------------------------------------------------- */
 .form-control:focus {
@@ -235,6 +249,10 @@ a:hover .card {
 -------------------------------------------------- */
 .mt-1px {
     margin-top: 1px;
+}
+
+.mt-40px {
+    margin-top: 40px;
 }
 
 /* Custom colors
