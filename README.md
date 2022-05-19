@@ -3,7 +3,7 @@
 
 Good Nature is a conservation app created with ASP.NET Core MVC. It provides potential volunteers
 with information about a variety of projects and lets them shortlist and select those they would 
-like to work with.
+like to work with. The app is designed to be used on a variety of screen sizes.
 
 ## Current Features
 
@@ -18,7 +18,7 @@ several sections.
 
 At the top is a hero image and registration link.
 
-Beneath the hero image there is a set cards of representing the different conservation projects:
+Beneath the hero image there is a set of cards of representing the different conservation projects:
 
 ![Good Nature logo](GoodNature/wwwroot/images/projects.png)
 
@@ -28,9 +28,10 @@ And towards the bottom there are *Contact Us* and *About Us* sections:
 
 ### Registering
 
-Volunteers can register by clicking the register button in the center of the hero image. They can
-also register via one of the conservation project cards. If the latter option is chosen,
-the project described in the card will be automatically added to the users shortlist (more on this later).
+Volunteers can register by clicking the register button in the center of the hero image. 
+They are also able to register via one of the conservation project cards. 
+If the latter option is chosen, the project described in the card will be automatically 
+added to the user's shortlist (more on this later).
 
 ![Good Nature logo](GoodNature/wwwroot/images/register.png)
 
@@ -41,13 +42,14 @@ Registered users can click the *Login* navbar option to select projects and view
 ![Good Nature logo](GoodNature/wwwroot/images/login.png)
 
 Once logged in, users see a different homepage that contains the projects they have
-shortlisted and applied to volunteer with. These are formatted as a collapsible list:
+shortlisted, as well as those they have applied to volunteer with.
+These are formatted as collapsible lists:
 
 ![Good Nature logo](GoodNature/wwwroot/images/collapsed.png)
 
 ![Good Nature logo](GoodNature/wwwroot/images/expanded.png)
 
-And clicking an item displays the relevant content:
+Clicking a list item displays the relevant content:
 
 ![Good Nature logo](GoodNature/wwwroot/images/bumblebeevid.png)
 
