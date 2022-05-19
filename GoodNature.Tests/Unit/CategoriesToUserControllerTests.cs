@@ -21,7 +21,7 @@ namespace GoodNature.Tests.Unit
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICustomDataMethods _customDataMethods;
 
-        private CategoriesToUserController _categoriesToUserController;
+        private readonly CategoriesToUserController _categoriesToUserController;
 
         public CategoriesToUserControllerTests()
         {
