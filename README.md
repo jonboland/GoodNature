@@ -24,8 +24,12 @@ And towards the bottom there are *Contact Us* and *About Us* sections.
 
 ![Good Nature logo](GoodNature/wwwroot/images/contact.png)
 
+## Registering
 
+Users can register by clicking the register button in the center of the hero image. They can
+also register via one of the conservation project cards. If the latter option is chosen,
+the project described in the card will be automatically added to the users shortlist (more on this later).
 
-
+![Good Nature logo](GoodNature/wwwroot/images/register.png)
 
 
