@@ -56,4 +56,18 @@ returned to the homepage where any changes are reflected.
 
 ![Good Nature logo](GoodNature/wwwroot/images/select.png)
 
+## Admin User
 
+The admin user has access to an additional dropdown menu that allows configuration
+and management of the system:
+
+![Good Nature logo](GoodNature/wwwroot/images/adminmenu.png)
+
+The pages that can be accessed through this menu allow the administrator to complete tasks
+such as:
+
+- Defining which media types can be used. 
+- Adding and editing new projects and content items. 
+- Specifying the relationships between users and projects.
+
+![Good Nature logo](GoodNature/wwwroot/images/adminscreens.png)
