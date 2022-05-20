@@ -86,4 +86,4 @@ interests, skills, and availability.
 and directly view the details of people who have applied to volunteer with them.
 - Create a notification system to automatically alert projects when somebody applies to volunteer.
 
-~Images and vectors courtesy of Unsplash, Stockio.com, and Robert Bjurshagen from Noun Project.~
+<sub>Images and vectors courtesy of Unsplash, Stockio.com, and Robert Bjurshagen from Noun Project.</sub>
